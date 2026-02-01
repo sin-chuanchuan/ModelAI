@@ -134,7 +134,7 @@ const Team: React.FC = () => {
                         <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                             <div>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    显示第 <span className="font-medium text-slate-900 dark:text-white">1</span> 到 <span class="font-medium text-slate-900 dark:text-white">5</span> 条，共 <span className="font-medium text-slate-900 dark:text-white">8</span> 条结果
+                                    显示第 <span className="font-medium text-slate-900 dark:text-white">1</span> 到 <span className="font-medium text-slate-900 dark:text-white">5</span> 条，共 <span className="font-medium text-slate-900 dark:text-white">8</span> 条结果
                                 </p>
                             </div>
                             <div>

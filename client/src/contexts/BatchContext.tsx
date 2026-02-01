@@ -39,7 +39,11 @@ const BatchContext = createContext<BatchContextType | undefined>(undefined);
 
 export const BatchProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [fileList, setFileList] = useState<BatchFile[]>([]);
-    const [globalSettings, setGlobalSettings] = useState({
+    const [globalSettings, setGlobalSettings] = useState<{
+        modelId: string | null;
+        sceneId: string | null;
+        poseId: string | null;
+    }>({
         modelId: null,
         sceneId: null,
         poseId: null,

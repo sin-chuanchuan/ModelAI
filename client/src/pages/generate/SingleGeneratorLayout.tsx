@@ -1,12 +1,6 @@
 import React from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-const steps = [
-    { number: 1, label: '上传服装' },
-    { number: 2, label: '选择模特' }, // Merged in UI usually, but logically step 1 is upload+model select in our design
-    { number: 3, label: '选择场景与姿势' }, // This is technically step 2 in our route structure, step 3 in design breadcrumb
-];
-
 // Map internal route steps to design breadcrumbs
 // Route: step1 -> Design: 1 & 2 (Upload + Model)
 // Route: step2 -> Design: 3 (Scene + Pose)

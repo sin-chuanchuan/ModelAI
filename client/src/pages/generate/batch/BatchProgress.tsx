@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useBatch } from '../../../contexts/BatchContext';
 
 const BatchProgress: React.FC = () => {
     const navigate = useNavigate();
-    const { fileList, globalSettings, progress, isGenerating, reset } = useBatch();
+    const { fileList, progress, isGenerating } = useBatch();
 
     // Calculate stats
     const completedCount = Math.floor((progress / 100) * fileList.length);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const MOCK_HISTORY = [
     { id: 'ORD-20231024-8832', date: '2023-10-24 14:30:00', type: '基础包 (200张)', amount: '¥ 299.00', method: 'wechat', status: 'success' },
@@ -13,7 +13,6 @@ const MOCK_HISTORY = [
 ];
 
 const BillingHistory: React.FC = () => {
-    const navigate = useNavigate();
     const [filterStatus, setFilterStatus] = useState('');
 
     return (
@@ -154,7 +153,7 @@ const BillingHistory: React.FC = () => {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
                                                 <span className={`material-symbols-outlined ${tx.method === 'wechat' ? 'text-green-500' :
-                                                        tx.method === 'alipay' ? 'text-sky-500' : 'text-slate-500'
+                                                    tx.method === 'alipay' ? 'text-sky-500' : 'text-slate-500'
                                                     }`}>
                                                     {tx.method === 'wechat' ? 'chat_bubble' :
                                                         tx.method === 'alipay' ? 'payments' : 'account_balance'}
