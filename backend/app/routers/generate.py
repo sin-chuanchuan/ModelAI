@@ -1,59 +1,73 @@
-from fastapi import APIRouter, HTTPException, status, Body
+from fastapi import APIRouter, Depends, HTTPException, status
 from typing import Dict, Any, Optional
-from app.utils.database import generation_tasks_collection
+from datetime import datetime
 from bson import ObjectId
+
+from app.deps import get_current_user
+from app.schemas.user import UserInDB
+from app.models.task import GenerationTaskModel, TaskStatus
+from app.utils.database import generation_tasks_collection
+# Import celery task
+from app.tasks.generate import generate_image_task
 
 router = APIRouter(
     tags=["generate"]
 )
 
-
-@router.post("/image/doubao", response_model=Dict[str, Any])
-async def generate_image_doubao(
-    request: Dict[str, Any]
+@router.post("/", response_model=GenerationTaskModel)
+async def create_generation_task(
+    request: Dict[str, Any],
+    current_user: UserInDB = Depends(get_current_user),
 ):
     """
-    Direct API endpoint for testing Doubao image generation without Celery.
-    
-    Args:
-        request: JSON request body containing:
-            - prompt: The text prompt to generate the image from.
-            - image_urls: Optional dictionary of reference images.
-            - size: The size of the generated image (default: "2K").
-            - watermark: Whether to add watermark to the generated image (default: True).
-    
-    Returns:
-        A dictionary containing the generated image URL and metadata.
+    Create a new generation task.
     """
-    try:
-        from app.services.ai.factory import AIServiceFactory
+    # Validate basics
+    garment_url = request.get("garment_url")
+    model_id = request.get("model_id")
+    scene_id = request.get("scene_id")
+    
+    if not garment_url or not model_id or not scene_id:
+         raise HTTPException(status_code=400, detail="Missing garment_url, model_id or scene_id")
+
+    # Construct Prompt (Simplified logic for now)
+    # In real app, we would fetch model/scene details to build prompt
+    prompt = f"Model {model_id} wearing garment in scene {scene_id}"
+    
+    # Create Task Record
+    task = GenerationTaskModel(
+        user_id=current_user.id,
+        garment_url=garment_url,
+        model_id=model_id,
+        scene_id=scene_id,
+        pose_id=request.get("pose_id"),
+        prompt=prompt,
+        status=TaskStatus.PENDING
+    )
+    
+    result = generation_tasks_collection.insert_one(task.model_dump(by_alias=True, exclude={"id"}))
+    task.id = str(result.inserted_id)
+    
+    # Trigger Celery Task
+    generate_image_task.delay(str(task.id))
+    
+    return task
+
+@router.get("/{task_id}", response_model=GenerationTaskModel)
+async def get_task_status(
+    task_id: str,
+    current_user: UserInDB = Depends(get_current_user),
+):
+    """Get status of a specific task."""
+    if not ObjectId.is_valid(task_id):
+        raise HTTPException(status_code=400, detail="Invalid task ID")
         
-        # Extract parameters from request body
-        prompt = request.get("prompt")
-        image_urls = request.get("image_urls")
-        size = request.get("size", "2K")
-        watermark = request.get("watermark", True)
+    doc = generation_tasks_collection.find_one({
+        "_id": ObjectId(task_id),
+        "user_id": current_user.id
+    })
+    
+    if not doc:
+        raise HTTPException(status_code=404, detail="Task not found")
         
-        if not prompt:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Prompt is required"
-            )
-        
-        # Get the Doubao AI service instance
-        ai_service = AIServiceFactory.get_service("doubao")
-        
-        # Generate the image
-        result = await ai_service.generate_image(
-            prompt=prompt,
-            image_urls=image_urls,
-            size=size,
-            watermark=watermark
-        )
-        
-        return result
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to generate image: {str(e)}"
-        )
+    return GenerationTaskModel(**doc)

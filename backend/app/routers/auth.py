@@ -5,7 +5,6 @@ from app.schemas.user import User, UserCreate, Token
 from app.services.auth import create_user, authenticate_user, create_user_token
 
 router = APIRouter(
-    prefix="/auth",
     tags=["auth"]
 )
 

@@ -1,103 +1,113 @@
+from celery import shared_task
 from typing import Dict, Any, Optional
-from app.services.ai.factory import AIServiceFactory
-from app.utils.database import generation_tasks_collection
 from datetime import datetime
+from bson import ObjectId
+import asyncio
+import logging
 
-def generate_image_task(
-    self,
-    prompt: str,
-    image_urls: Optional[Dict[str, str]] = None,
-    service: str = "openai",
-    size: str = "1024x1024",
-    quality: str = "standard",
-    user_id: Optional[str] = None
-) -> Dict[str, Any]:
+from app.services.ai.factory import AIServiceFactory
+from app.utils.database import generation_tasks_collection, materials_collection
+from app.models.task import TaskStatus
+from celery_config import celery
+
+logger = logging.getLogger(__name__)
+
+@celery.task(bind=True, name="app.tasks.generate.generate_image_task")
+def generate_image_task(self, task_id: str):
     """
     Celery task for generating an image asynchronously.
-    
-    Args:
-        self: The task instance.
-        prompt: The text prompt to generate the image from.
-        image_urls: Optional dictionary of reference images.
-        service: The AI service to use.
-        size: The size of the generated image.
-        quality: The quality of the generated image.
-        user_id: The ID of the user who requested the generation.
-    
-    Returns:
-        A dictionary containing the generated image URL and metadata.
+    Supports asynchronous AI service calls within the synchronous Celery worker.
     """
-    # Update task state to STARTED
-    self.update_state(state="STARTED", meta={"progress": 0, "status": "Initializing generation..."})
-    
-    # Create task record in database
-    task_id = self.request.id
-    task_record = {
-        "_id": task_id,
-        "user_id": user_id,
-        "prompt": prompt,
-        "image_urls": image_urls,
-        "service": service,
-        "size": size,
-        "quality": quality,
-        "status": "STARTED",
-        "progress": 0,
-        "result": None,
-        "created_at": datetime.utcnow(),
-        "updated_at": datetime.utcnow()
-    }
-    generation_tasks_collection.insert_one(task_record)
+    # 1. 获取任务数据
+    task = generation_tasks_collection.find_one({"_id": ObjectId(task_id)})
+    if not task:
+        logger.error(f"Task {task_id} not found in database.")
+        return
+
+    # 2. 更新状态为正在处理
+    generation_tasks_collection.update_one(
+        {"_id": ObjectId(task_id)},
+        {"$set": {
+            "status": TaskStatus.PROCESSING, 
+            "progress": 10, 
+            "updated_at": datetime.utcnow()
+        }}
+    )
     
     try:
-        # Update task state to PROCESSING
-        self.update_state(state="PROCESSING", meta={"progress": 30, "status": "Generating image..."})
+        # 3. 准备 AI 服务
+        service_name = task.get("service", "doubao") 
+        ai_service = AIServiceFactory.get_service(service_name)
         
-        # Get the AI service instance
-        ai_service = AIServiceFactory.get_service(service)
+        # 4. 解析素材 ID 为 URL
+        model_id = task.get("model_id")
+        scene_id = task.get("scene_id")
+        garment_url = task.get("garment_url")
+
+        def resolve_material_url(material_id_or_url):
+            if not material_id_or_url:
+                return None
+            if ObjectId.is_valid(str(material_id_or_url)):
+                m_doc = materials_collection.find_one({"_id": ObjectId(material_id_or_url)})
+                return m_doc.get("url") if m_doc else material_id_or_url
+            return material_id_or_url
+
+        model_url = resolve_material_url(model_id)
+        scene_url = resolve_material_url(scene_id)
+
+        # 5. 处理本地开发 URL 兼容性 (豆包 API 限制)
+        def get_public_url(url):
+            if not url: return None
+            if url.startswith("file://") or "localhost" in url:
+                # 生产环境下应上传至 OSS/S3，开发环境下使用示例图
+                return "https://ark-project.tos-cn-beijing.volces.com/doc_image/seedream4_imagesToimage_1.png"
+            return url
+
+        image_urls = {}
+        if garment_url: image_urls["garment"] = get_public_url(garment_url)
+        if model_url: image_urls["model"] = get_public_url(model_url)
+        if scene_url: image_urls["scene"] = get_public_url(scene_url)
         
-        # Generate the image - Using direct sync call for testing
-        # Note: In production, we should use asyncio.run() or similar to handle async calls
-        import asyncio
-        result = asyncio.run(ai_service.generate_image(
+        prompt = task.get("prompt") or "A professional fashion photo of a model wearing high-quality clothing"
+        
+        # 6. 执行异步 AI 生成逻辑
+        # 因为 Celery worker 是同步运行的，我们需要通过事件循环运行异步代码
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            
+        logger.info(f"Starting image generation for task {task_id} using {service_name}")
+        
+        result = loop.run_until_complete(ai_service.generate_image(
             prompt=prompt,
             image_urls=image_urls,
-            size=size,
-            quality=quality
+            size=task.get("params", {}).get("size", "2K")
         ))
         
-        # Update task state to COMPLETED
-        self.update_state(state="COMPLETED", meta={"progress": 100, "status": "Image generated successfully!"})
-        
-        # Update task record in database
+        # 7. 更新结果到数据库
         generation_tasks_collection.update_one(
-            {"_id": task_id},
-            {
-                "$set": {
-                    "status": "COMPLETED",
-                    "progress": 100,
-                    "result": result,
-                    "updated_at": datetime.utcnow()
-                }
-            }
+            {"_id": ObjectId(task_id)},
+            {"$set": {
+                "status": TaskStatus.COMPLETED, 
+                "progress": 100, 
+                "result_url": result.get("image_url"), 
+                "completed_at": datetime.utcnow(),
+                "updated_at": datetime.utcnow()
+            }}
         )
+        logger.info(f"Task {task_id} completed successfully.")
         
-        return result
     except Exception as e:
-        # Update task state to FAILED
-        self.update_state(state="FAILED", meta={"progress": 0, "status": f"Failed to generate image: {str(e)}"})
-        
-        # Update task record in database
+        logger.exception(f"Error executing generation task {task_id}: {str(e)}")
+        # 8. 标记任务失败
         generation_tasks_collection.update_one(
-            {"_id": task_id},
-            {
-                "$set": {
-                    "status": "FAILED",
-                    "progress": 0,
-                    "error": str(e),
-                    "updated_at": datetime.utcnow()
-                }
-            }
+            {"_id": ObjectId(task_id)},
+            {"$set": {
+                "status": TaskStatus.FAILED, 
+                "error_message": str(e),
+                "updated_at": datetime.utcnow()
+            }}
         )
-        
-        # Re-raise the exception to mark the task as failed
-        raise
+        raise e

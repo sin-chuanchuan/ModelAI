@@ -56,12 +56,18 @@ class LocalStorageService(StorageService):
         unique_filename = f"{uuid.uuid4()}{file_ext}"
         file_path = upload_dir / unique_filename
         
-        # Write the file to disk
-        with open(file_path, "wb") as f:
-            f.write(file_obj.read())
+        # Write the file to disk asynchronously
+        import aiofiles
+        import asyncio
+        async with aiofiles.open(file_path, "wb") as f:
+            content = file_obj.read()
+            # 兼容 UploadFile 的 read() 可能是协程的情况
+            if asyncio.iscoroutine(content):
+                content = await content
+            await f.write(content)
         
-        # Return the file URL (local path for now)
-        return f"file://{file_path.absolute()}"
+        # Return the file URL (local static path)
+        return f"/uploads/{file_type}s/{unique_filename}"
     
     async def download_file(
         self,
@@ -139,11 +145,9 @@ class LocalStorageService(StorageService):
         """
         # Determine the directory based on file type
         if file_type == "generated":
-            file_path = self.generated_dir / file_name
+            return f"http://localhost:8000/uploads/generated/{file_name}"
         else:
-            file_path = self.upload_dir / file_name
-        
-        return f"file://{file_path.absolute()}"
+            return f"http://localhost:8000/uploads/uploads/{file_name}"
     
     def get_service_name(self) -> str:
         """

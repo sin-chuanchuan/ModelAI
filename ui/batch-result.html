@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Studio - 批量生成任务进度</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0da6f2",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2634",
+                        "border-light": "#e5e7eb",
+                        "border-dark": "#2a3644",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111618] dark:text-white flex flex-col h-screen overflow-hidden">
+<header class="h-16 flex-none bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark flex items-center justify-between px-6 z-20">
+<div class="flex items-center gap-2">
+<h1 class="text-primary text-xl font-bold leading-normal flex items-center gap-2">
+<span class="material-symbols-outlined filled text-2xl">auto_awesome</span>
+                AI Studio
+            </h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="text-[#607c8a] dark:text-[#94a3b8] hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="relative text-[#607c8a] dark:text-[#94a3b8] hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 size-2 bg-red-500 rounded-full border-2 border-surface-light dark:border-surface-dark"></span>
+</button>
+</div>
+<div class="w-px h-8 bg-border-light dark:bg-border-dark"></div>
+<button class="flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-[#202e3d] py-1 px-2 rounded-lg transition-colors">
+<div class="size-8 rounded-full bg-cover bg-center ring-2 ring-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCzs6Hedjbh0kqTjivuaJzG8zI7X8VQ5ShDTyVw0PfT1oWqshRYHKCCTXvIlZz9ZvC_iTI1d4agQ6xwBStlFPd1N0WME_I4OC1K8dFIzprA0_cHvSwyJrjl31CAuQ7NTXm7jnaecZ-CX0fzN_jhPFO9MwQFV-yzlU20PgtYOCZRdjBuVYYJOFR8EmwuVBP5G3DlW19wSMNbVKXsCU_0LxbOneebyNsYGN4xsnMM1-v3X4D2vaW9wDNQ41B1ibOI_0Jj97EvKzrmYj2y");'></div>
+<div class="flex flex-col items-start hidden sm:flex">
+<p class="text-[#111618] dark:text-white text-sm font-medium leading-tight">张经理</p>
+<p class="text-[#607c8a] dark:text-[#94a3b8] text-xs leading-tight">专业版</p>
+</div>
+<span class="material-symbols-outlined text-[#607c8a] text-xl">expand_more</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden relative">
+<aside class="flex w-64 flex-col border-r border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark flex-none hidden md:flex">
+<div class="flex h-full flex-col p-4">
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary transition-colors group" href="#">
+<span class="material-symbols-outlined filled">dashboard</span>
+<p class="text-sm font-medium leading-normal">工作台</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#607c8a] dark:text-[#94a3b8] hover:bg-[#f0f3f5] dark:hover:bg-[#2a3644] transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-[#111618] dark:group-hover:text-white">folder_open</span>
+<p class="text-sm font-medium leading-normal group-hover:text-[#111618] dark:group-hover:text-white">素材库</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#607c8a] dark:text-[#94a3b8] hover:bg-[#f0f3f5] dark:hover:bg-[#2a3644] transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-[#111618] dark:group-hover:text-white">group</span>
+<p class="text-sm font-medium leading-normal group-hover:text-[#111618] dark:group-hover:text-white">团队管理</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#607c8a] dark:text-[#94a3b8] hover:bg-[#f0f3f5] dark:hover:bg-[#2a3644] transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-[#111618] dark:group-hover:text-white">account_balance_wallet</span>
+<p class="text-sm font-medium leading-normal group-hover:text-[#111618] dark:group-hover:text-white">费用中心</p>
+</a>
+</div>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark">
+<div class="max-w-[1200px] mx-auto p-6 md:p-8 flex flex-col gap-6">
+<div class="flex flex-wrap items-center gap-2 text-sm">
+<a class="text-[#607c8a] dark:text-[#94a3b8] font-medium hover:text-primary transition-colors" href="#">首页</a>
+<span class="text-[#607c8a] dark:text-[#94a3b8] font-medium">/</span>
+<a class="text-[#607c8a] dark:text-[#94a3b8] font-medium hover:text-primary transition-colors" href="#">批量生成</a>
+<span class="text-[#607c8a] dark:text-[#94a3b8] font-medium">/</span>
+<span class="text-[#111618] dark:text-white font-medium">任务进度</span>
+</div>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-3">
+<h1 class="text-[#111618] dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">批次 #20231025</h1>
+<span class="px-2 py-1 bg-primary/10 text-primary text-xs font-bold rounded uppercase tracking-wider">生成中</span>
+</div>
+<div class="flex items-center gap-4 text-sm text-[#607c8a] dark:text-[#94a3b8]">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-lg">schedule</span>
+                                预计剩余: 2分15秒
+                            </span>
+<span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+<span>开始时间: 10:42</span>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center gap-2 h-10 px-4 bg-white dark:bg-[#2a3644] border border-border-light dark:border-border-dark text-[#111618] dark:text-white text-sm font-bold rounded-lg hover:bg-gray-50 dark:hover:bg-[#344252] transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span>返回工作台</span>
+</button>
+<button class="flex items-center justify-center gap-2 h-10 px-4 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary/90 transition-colors shadow-sm shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">download</span>
+<span>全部下载 (ZIP)</span>
+</button>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-5 shadow-sm border border-border-light dark:border-border-dark">
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-bold text-[#111618] dark:text-white">总进度</span>
+<span class="text-sm font-bold text-primary">60%</span>
+</div>
+<div class="w-full h-3 bg-[#f0f3f5] dark:bg-[#101c22] rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full w-[60%] transition-all duration-500 ease-out relative overflow-hidden">
+<div class="absolute inset-0 bg-white/20 w-full h-full animate-[shimmer_2s_infinite] skew-x-12 translate-x-[-100%]"></div>
+</div>
+</div>
+<div class="flex justify-between mt-3 text-xs text-[#607c8a] dark:text-[#94a3b8]">
+<div class="flex gap-4">
+<span class="flex items-center gap-1"><span class="size-2 rounded-full bg-green-500"></span> 3 已完成</span>
+<span class="flex items-center gap-1"><span class="size-2 rounded-full bg-primary animate-pulse"></span> 1 生成中</span>
+<span class="flex items-center gap-1"><span class="size-2 rounded-full bg-gray-300 dark:bg-gray-600"></span> 1 排队中</span>
+</div>
+<span>3/5 项</span>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-border-light dark:border-border-dark flex flex-col overflow-hidden">
+<div class="grid grid-cols-12 gap-4 px-6 py-3 border-b border-border-light dark:border-border-dark bg-gray-50/50 dark:bg-[#202e3d] text-xs font-semibold uppercase tracking-wider text-[#607c8a] dark:text-[#94a3b8]">
+<div class="col-span-4 md:col-span-5">文件与详情</div>
+<div class="col-span-4 md:col-span-5">状态</div>
+<div class="col-span-4 md:col-span-2 text-right">操作</div>
+</div>
+<div class="group grid grid-cols-12 gap-4 px-6 py-4 items-center border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-[#202e3d] transition-colors">
+<div class="col-span-4 md:col-span-5 flex gap-4 items-center">
+<div class="relative size-16 rounded-lg overflow-hidden border border-border-light dark:border-border-dark shrink-0">
+<img alt="Generated fashion model wearing yellow dress" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4cj9cTqXHfckCrUfvqixMLWLyXj1s5Cx0VBu63fJADVBjYoABCOyzmyzcaaa-Swx53d9XQKIfs-ijvQkPzR_s88Rc5Jwltwh4mKoAPk5rVvLD2_q6Aiug-lZ7xT9DHWyaQst6Y1SmxdV1oJEOkWChZ7jR5PUWqplP-ObTJZgF5XzmiemlCDHX7Xq2lLoDj-sil5kshdm6BD3FlohCfTEG_lTHYQTzxD63ffRpUpQoPlRi31OutDDoPzjIzu_MwbnuPr7Tejj5170M"/>
+</div>
+<div class="flex flex-col overflow-hidden">
+<p class="text-sm font-bold text-[#111618] dark:text-white truncate">Summer_Dress_Ylw_01.jpg</p>
+<p class="text-xs text-[#607c8a] dark:text-[#94a3b8] truncate">模特: Sarah • 影棚光</p>
+</div>
+</div>
+<div class="col-span-4 md:col-span-5 flex items-center">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-100 dark:border-green-900/30">
+<span class="material-symbols-outlined text-[18px] filled">check_circle</span>
+<span class="text-xs font-bold">已完成</span>
+</div>
+</div>
+<div class="col-span-4 md:col-span-2 flex justify-end gap-2">
+<button class="size-9 flex items-center justify-center rounded-lg text-[#607c8a] dark:text-[#94a3b8] hover:bg-white dark:hover:bg-[#2a3644] hover:text-primary dark:hover:text-primary border border-transparent hover:border-border-light dark:hover:border-border-dark transition-all" title="预览">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="size-9 flex items-center justify-center rounded-lg text-[#607c8a] dark:text-[#94a3b8] hover:bg-white dark:hover:bg-[#2a3644] hover:text-primary dark:hover:text-primary border border-transparent hover:border-border-light dark:hover:border-border-dark transition-all" title="下载">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+<div class="group grid grid-cols-12 gap-4 px-6 py-4 items-center border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-[#202e3d] transition-colors">
+<div class="col-span-4 md:col-span-5 flex gap-4 items-center">
+<div class="relative size-16 rounded-lg overflow-hidden border border-border-light dark:border-border-dark shrink-0">
+<img alt="Generated fashion model wearing floral dress" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATg_enrUdXfeDPQIaNawvswyVc2mdElniyT-JWmV8ZjWc5BFVikTpbMo_f4DvBy70cXS7v4KbMgKW_KEXu70i-e4Zk7ISxfEux6I9D5YtNSxDg4JjmLhg96GEWxi-6_n5PSzdWviQGMysnU0s9caXOK-J_9keOkzZLKv4fF3FARju-fsFRhpWzqg0ePxwO1RdgEM0SLkMoAetL57gSdiTwHNBykEqV1xqNXPTKDrY_K_Cu7Y_UpjPfboXTh_Zl6_J7d29f4SJWu8jq"/>
+</div>
+<div class="flex flex-col overflow-hidden">
+<p class="text-sm font-bold text-[#111618] dark:text-white truncate">Floral_Maxi_04.jpg</p>
+<p class="text-xs text-[#607c8a] dark:text-[#94a3b8] truncate">模特: 亚洲女性 • 户外</p>
+</div>
+</div>
+<div class="col-span-4 md:col-span-5 flex items-center">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-100 dark:border-green-900/30">
+<span class="material-symbols-outlined text-[18px] filled">check_circle</span>
+<span class="text-xs font-bold">已完成</span>
+</div>
+</div>
+<div class="col-span-4 md:col-span-2 flex justify-end gap-2">
+<button class="size-9 flex items-center justify-center rounded-lg text-[#607c8a] dark:text-[#94a3b8] hover:bg-white dark:hover:bg-[#2a3644] hover:text-primary dark:hover:text-primary border border-transparent hover:border-border-light dark:hover:border-border-dark transition-all" title="预览">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="size-9 flex items-center justify-center rounded-lg text-[#607c8a] dark:text-[#94a3b8] hover:bg-white dark:hover:bg-[#2a3644] hover:text-primary dark:hover:text-primary border border-transparent hover:border-border-light dark:hover:border-border-dark transition-all" title="下载">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+<div class="group grid grid-cols-12 gap-4 px-6 py-4 items-center border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-[#202e3d] transition-colors">
+<div class="col-span-4 md:col-span-5 flex gap-4 items-center">
+<div class="relative size-16 rounded-lg overflow-hidden border border-border-light dark:border-border-dark shrink-0">
+<img alt="Generated fashion model wearing winter coat" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqMwKbhhFVBPJ8VpCLsxuZJHoTlBp_DQ97w3Tp-J65LKca1c9fA5aQCjYmZ-B5Orok8-Pd5Y4sAeHaPljtPZWOCdpt3xaF1GIWlHacQ91ANe9N6gEJ5MVq_vCJxKaT7hHw6Ia8yi6hZuNZten8Bl5YupBaD2Ya0zuiuCjV_1qfKc9h5kFOliEuOYlPVxm2_B3BqLo_L6LAG9pBwbxRHZrV-QtydcvVpXo5dS5ayxa1ORcxxIzAnQyErfl3mgX5sWQ_4m9O9OVDurfK"/>
+</div>
+<div class="flex flex-col overflow-hidden">
+<p class="text-sm font-bold text-[#111618] dark:text-white truncate">Winter_Coat_Beige.jpg</p>
+<p class="text-xs text-[#607c8a] dark:text-[#94a3b8] truncate">模特: 白人男性 • 街道</p>
+</div>
+</div>
+<div class="col-span-4 md:col-span-5 flex items-center">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-100 dark:border-green-900/30">
+<span class="material-symbols-outlined text-[18px] filled">check_circle</span>
+<span class="text-xs font-bold">已完成</span>
+</div>
+</div>
+<div class="col-span-4 md:col-span-2 flex justify-end gap-2">
+<button class="size-9 flex items-center justify-center rounded-lg text-[#607c8a] dark:text-[#94a3b8] hover:bg-white dark:hover:bg-[#2a3644] hover:text-primary dark:hover:text-primary border border-transparent hover:border-border-light dark:hover:border-border-dark transition-all" title="预览">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="size-9 flex items-center justify-center rounded-lg text-[#607c8a] dark:text-[#94a3b8] hover:bg-white dark:hover:bg-[#2a3644] hover:text-primary dark:hover:text-primary border border-transparent hover:border-border-light dark:hover:border-border-dark transition-all" title="下载">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+<div class="group grid grid-cols-12 gap-4 px-6 py-4 items-center border-b border-border-light dark:border-border-dark bg-primary/5 dark:bg-primary/5">
+<div class="col-span-4 md:col-span-5 flex gap-4 items-center">
+<div class="relative size-16 rounded-lg overflow-hidden border border-border-light dark:border-border-dark shrink-0 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#607c8a] animate-spin">progress_activity</span>
+</div>
+<div class="flex flex-col overflow-hidden">
+<p class="text-sm font-bold text-[#111618] dark:text-white truncate">Casual_Jeans_Blue.png</p>
+<p class="text-xs text-[#607c8a] dark:text-[#94a3b8] truncate">模特: 默认 • 纯白背景</p>
+</div>
+</div>
+<div class="col-span-4 md:col-span-5 flex flex-col justify-center gap-2 pr-4 md:pr-10">
+<div class="flex justify-between items-end w-full">
+<span class="text-xs font-bold text-primary flex items-center gap-1">
+<span class="relative flex h-2 w-2 mr-1">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+                                    生成中...
+                                </span>
+<span class="text-xs font-medium text-[#111618] dark:text-white">78%</span>
+</div>
+<div class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[78%] rounded-full animate-pulse transition-all duration-300"></div>
+</div>
+</div>
+<div class="col-span-4 md:col-span-2 flex justify-end gap-2">
+<button class="size-9 flex items-center justify-center rounded-lg text-gray-300 dark:text-gray-600 cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[20px]">visibility_off</span>
+</button>
+<button class="size-9 flex items-center justify-center rounded-lg text-gray-300 dark:text-gray-600 cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+<div class="group grid grid-cols-12 gap-4 px-6 py-4 items-center">
+<div class="col-span-4 md:col-span-5 flex gap-4 items-center opacity-60">
+<div class="relative size-16 rounded-lg overflow-hidden border border-border-light dark:border-border-dark shrink-0 bg-gray-50 dark:bg-[#151f2b] flex items-center justify-center">
+<span class="material-symbols-outlined text-gray-300 dark:text-gray-600">image</span>
+</div>
+<div class="flex flex-col overflow-hidden">
+<p class="text-sm font-bold text-[#111618] dark:text-white truncate">Silk_Blouse_Red.jpg</p>
+<p class="text-xs text-[#607c8a] dark:text-[#94a3b8] truncate">模特: Sarah • 户外公园</p>
+</div>
+</div>
+<div class="col-span-4 md:col-span-5 flex items-center">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700">
+<span class="material-symbols-outlined text-[18px]">hourglass_empty</span>
+<span class="text-xs font-bold">排队中</span>
+</div>
+</div>
+<div class="col-span-4 md:col-span-2 flex justify-end gap-2">
+<button class="size-9 flex items-center justify-center rounded-lg text-gray-300 dark:text-gray-600 cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[20px]">visibility_off</span>
+</button>
+<button class="size-9 flex items-center justify-center rounded-lg text-gray-300 dark:text-gray-600 cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-blue-50 dark:bg-[#1a2634] p-4 rounded-lg flex items-start gap-3 border border-blue-100 dark:border-blue-900/30">
+<span class="material-symbols-outlined text-primary mt-0.5">info</span>
+<div class="flex flex-col gap-1">
+<p class="text-sm font-bold text-[#111618] dark:text-white">小提示</p>
+<p class="text-sm text-[#607c8a] dark:text-[#94a3b8]">您可以关闭此窗口，后台将继续处理。完成后我们将发送邮件通知您。</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+<style>
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+    </style>
+
+</body></html>

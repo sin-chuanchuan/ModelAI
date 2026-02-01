@@ -1,6 +1,4 @@
-#!/bin/sh
-'''exec' "/Users/sin/Documents/trae_projects/Model AI/backend/venv/bin/python3" "$0" "$@"
-' '''
+#!/Users/sin/Documents/ModelAI/ModelAI/backend/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Fashion Studio - 素材库</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Sans+SC:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0da6f2",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2c35",
+                        "sidebar-dark": "#0f161b",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "Noto Sans SC", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111618] dark:text-gray-100 font-display flex flex-col h-screen overflow-hidden">
+<header class="flex-none flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e5e7eb] dark:border-b-[#2d3748] bg-surface-light dark:bg-surface-dark px-6 py-3 z-40 relative shadow-sm">
+<div class="flex items-center gap-4 text-[#111618] dark:text-white">
+<div class="size-8 text-primary flex items-center justify-center bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-2xl">checkroom</span>
+</div>
+<h2 class="text-[#111618] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">AI Fashion Studio</h2>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center overflow-hidden rounded-lg size-10 bg-gray-100 dark:bg-gray-800 text-[#111618] dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-2 cursor-pointer pl-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg pr-2 transition-colors">
+<div class="size-8 rounded-full bg-gradient-to-tr from-blue-400 to-purple-500" data-alt="User avatar gradient"></div>
+<span class="text-sm font-medium hidden sm:block">Jane Doe</span>
+<span class="material-symbols-outlined text-gray-400 text-sm">expand_more</span>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden relative">
+<nav class="flex-none w-[72px] bg-sidebar-dark dark:bg-black flex flex-col items-center py-6 gap-3 border-r border-gray-800 z-30">
+<a class="group flex flex-col items-center gap-1.5 p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-all w-16" href="#">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">dashboard</span>
+<span class="text-[10px] font-medium">工作台</span>
+</a>
+<a class="flex flex-col items-center gap-1.5 p-2 rounded-xl bg-primary text-white shadow-lg shadow-primary/30 w-16 relative" href="#">
+<span class="material-symbols-outlined text-2xl">checkroom</span>
+<span class="text-[10px] font-medium">素材库</span>
+</a>
+<a class="group flex flex-col items-center gap-1.5 p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-all w-16" href="#">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">groups</span>
+<span class="text-[10px] font-medium">团队管理</span>
+</a>
+<a class="group flex flex-col items-center gap-1.5 p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-all w-16" href="#">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">payments</span>
+<span class="text-[10px] font-medium">费用中心</span>
+</a>
+</nav>
+<nav class="w-56 flex-none bg-surface-light dark:bg-surface-dark border-r border-[#e5e7eb] dark:border-[#2d3748] flex flex-col pt-6 pb-4 px-3 gap-6">
+<div class="flex flex-col gap-1">
+<h3 class="px-3 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">素材分类</h3>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">grid_view</span>
+<span class="text-sm">全部素材</span>
+<span class="ml-auto text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full">124</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">woman</span>
+<span class="text-sm">女装</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">man</span>
+<span class="text-sm">男装</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">child_care</span>
+<span class="text-sm">童装</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">folder_off</span>
+<span class="text-sm">未分类</span>
+</a>
+</div>
+<div class="mt-auto">
+<div class="bg-gradient-to-br from-primary/10 to-purple-500/10 p-4 rounded-xl border border-primary/10">
+<h4 class="font-bold text-sm mb-1 text-primary">AI 点数</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-3">剩余 1,200 点</p>
+<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 mb-2">
+<div class="bg-primary h-1.5 rounded-full" style="width: 70%"></div>
+</div>
+</div>
+</div>
+</nav>
+<main class="flex-1 flex flex-col min-w-0 bg-background-light dark:bg-background-dark relative">
+<div class="flex flex-col sm:flex-row gap-4 justify-between items-center px-6 py-5 border-b border-gray-200/50 dark:border-gray-700/50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm z-10 sticky top-0">
+<div class="relative w-full max-w-md">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border-none rounded-lg bg-white dark:bg-surface-dark text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-sm" placeholder="搜索服装名称或标签..." type="text"/>
+</div>
+<button class="flex items-center justify-center gap-2 bg-primary hover:bg-blue-600 text-white px-5 py-2.5 rounded-lg shadow-sm shadow-primary/30 transition-all active:scale-95 whitespace-nowrap text-sm font-bold w-full sm:w-auto">
+<span class="material-symbols-outlined text-[20px]">cloud_upload</span>
+                    上传新服装
+                </button>
+</div>
+<div class="bg-white dark:bg-surface-dark border-b border-gray-200 dark:border-gray-700 px-6 py-2 flex items-center gap-4 shadow-sm animate-in fade-in slide-in-from-top-2 duration-300">
+<div class="flex items-center gap-2 mr-4">
+<input checked="" class="rounded border-gray-300 text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300">已选择 3 项</span>
+</div>
+<div class="h-6 w-px bg-gray-200 dark:bg-gray-700 mx-2"></div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+<span>批量删除</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+<span>重命名</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[18px]">drive_file_move</span>
+<span>移动分类</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-6">
+<div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+<div class="group relative bg-white dark:bg-surface-dark rounded-xl shadow-sm hover:shadow-lg transition-all border-2 border-primary cursor-pointer overflow-hidden">
+<div class="absolute top-3 left-3 z-10">
+<input checked="" class="size-5 rounded border-gray-300 text-primary focus:ring-primary shadow-sm" type="checkbox"/>
+</div>
+<div class="aspect-[3/4] w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
+<img alt="Yellow floral summer dress on hanger" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Yellow floral summer dress flat lay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBg2HaVyxueclKSnks9Hnl3stUsa1yRsmxzYiW81T2fQzEp68tyRPl19a3_vLILU9TyvyQM_NDGOrCG5VOWBnrUscVtA59fEKYBayIYHibhBlqImwhKEiXDXSen7CcRdv625u4VkJbQsbGZldwylilWr3rR086W_Yso99zHZf411tdGKXvIJEtFXsQ4V0Cvvuc4-5LmYmvfQQb6ihcRObxRoFPezIJCXF3O38f0DBKqi2ivD9X2numy-MZrpMsqSRwSmuw_4-7asv2Q"/>
+</div>
+<div class="p-3">
+<h3 class="font-bold text-gray-900 dark:text-white text-sm truncate">Floral Summer Dress</h3>
+<div class="flex items-center justify-between mt-1">
+<span class="text-xs text-gray-500 dark:text-gray-400">2023-10-24</span>
+<span class="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] px-1.5 py-0.5 rounded font-medium">已处理</span>
+</div>
+</div>
+</div>
+<div class="group relative bg-white dark:bg-surface-dark rounded-xl shadow-sm hover:shadow-lg transition-all border border-transparent hover:border-gray-200 dark:hover:border-gray-700 cursor-pointer overflow-hidden">
+<div class="absolute top-3 left-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+<input class="size-5 rounded border-gray-300 text-primary focus:ring-primary shadow-sm" type="checkbox"/>
+</div>
+<div class="aspect-[3/4] w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
+<img alt="Denim Jacket back view" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Blue denim jacket back view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAX1cYMjRpz9ue1Twhdm9kIgDXUKCWZmDzBJtRtWMSQcB-QJBspva9cEAKnUCbQ9Etw5JNoT03RQVg1fcVR9h5sPFwCa6xp17skfEjnZ_d2iqgLxvcQiG-WDv04TUZcVEoCE3ayoezJllpcr3CyaKUrLQ-HEbvG1BN4Zmc4Z6UoK8toJ5USKXyEp1Ge0tLdUrRZV_sdYssf4jYKmVixeA1weRC6yVj8ZAcPSn-SfRzNcwtalnvP663UPCpBnApQxSSCnMuOD5Dm_T72"/>
+</div>
+<div class="p-3">
+<h3 class="font-bold text-gray-900 dark:text-white text-sm truncate">Blue Denim Jacket</h3>
+<div class="flex items-center justify-between mt-1">
+<span class="text-xs text-gray-500 dark:text-gray-400">2023-10-22</span>
+</div>
+</div>
+</div>
+<div class="group relative bg-white dark:bg-surface-dark rounded-xl shadow-sm hover:shadow-lg transition-all border-2 border-primary cursor-pointer overflow-hidden">
+<div class="absolute top-3 left-3 z-10">
+<input checked="" class="size-5 rounded border-gray-300 text-primary focus:ring-primary shadow-sm" type="checkbox"/>
+</div>
+<div class="aspect-[3/4] w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
+<img alt="White linen shirt folded" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="White linen shirt texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuHGkyntYNjNNVMhG0TXdJrRNReNtnnSedMWlgFiYDyE8-f6gTw2o0JX5ttYQu7bKv4VByQKcV7lKhtqnGQnxf7wuQ2tknAJrbHTn2dKmejDDDaskluTsqbBUh1kz8ktBaC-4hFMTKH4h0BtDNxMzg1FXAVVMNTiK4WU0EGzDMdccHBXqTM97EaZJrYAdsiTophvZXLA3mmiwvOS2_y4uUfkzdP2RWjIvlHPmY8vtIlCE_b92fnjfTIaMtWkLgZKBwiti1QB4MJ0ud"/>
+</div>
+<div class="p-3">
+<h3 class="font-bold text-gray-900 dark:text-white text-sm truncate">Linen White Shirt</h3>
+<div class="flex items-center justify-between mt-1">
+<span class="text-xs text-gray-500 dark:text-gray-400">2023-10-20</span>
+<span class="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-[10px] px-1.5 py-0.5 rounded font-medium">New</span>
+</div>
+</div>
+</div>
+<div class="group relative bg-white dark:bg-surface-dark rounded-xl shadow-sm hover:shadow-lg transition-all border-2 border-primary cursor-pointer overflow-hidden">
+<div class="absolute top-3 left-3 z-10">
+<input checked="" class="size-5 rounded border-gray-300 text-primary focus:ring-primary shadow-sm" type="checkbox"/>
+</div>
+<div class="aspect-[3/4] w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
+<img alt="Classic beige trench coat" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Beige trench coat on mannequin" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQqaIf2QPD3Xa7HACRMhZTcRR6uQenmkkaEF5T7X-3dsv32Hw8Y5lMfNd6RE1C_Ta72N9AFfyVqDGSHAbQigo5s7Q_Ox77WByV80N6WcSSSUXsykgFPURCOxyRpLjUafrXx-ZditI0eziucEo8YmebpKQ_2PkwU55C1X7TrpMP-uuWG6Llnlqc-eK2wvRpJoWaSZnA3Yc__yiHmtLY7zdloin6_qDzS8tGmnQ2K9hVomA0MQwIJ_vZ3_LX5rCtxOvVkuKKzU6IbAUP"/>
+</div>
+<div class="p-3">
+<h3 class="font-bold text-gray-900 dark:text-white text-sm truncate">Classic Trench Coat</h3>
+<div class="flex items-center justify-between mt-1">
+<span class="text-xs text-gray-500 dark:text-gray-400">2023-10-18</span>
+</div>
+</div>
+</div>
+<div class="group relative bg-white dark:bg-surface-dark rounded-xl shadow-sm hover:shadow-lg transition-all border border-transparent hover:border-gray-200 dark:hover:border-gray-700 cursor-pointer overflow-hidden">
+<div class="absolute top-3 left-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+<input class="size-5 rounded border-gray-300 text-primary focus:ring-primary shadow-sm" type="checkbox"/>
+</div>
+<div class="aspect-[3/4] w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
+<img alt="Red oversized hoodie" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Red oversized hoodie street style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYhXevcdKyvZ-M-JUMRAZVTCzbGiWWHh_wFYxUHcASC0iof6p6md8BNqU6atpA4RnyOeFJK405RGJ_uNA-IPVY0HblUbStEuZXg7MeIJh-qJR_JuLWZL2Cn2EYCtauBSmdbDlokTAVfIjCUDqVUHeruzVKp_6HuFuTxtfQbOptOOeL0HHwJjzyiAsY8iDMWTiA7mzIl1sfOzGIjBniZ8Y1mECjgpOU1dld94DXXUu-D9vjDxSaIuC-HkW4oZ5jIOC_wU_733-zg-w0"/>
+</div>
+<div class="p-3">
+<h3 class="font-bold text-gray-900 dark:text-white text-sm truncate">Oversized Red Hoodie</h3>
+<div class="flex items-center justify-between mt-1">
+<span class="text-xs text-gray-500 dark:text-gray-400">2023-10-15</span>
+</div>
+</div>
+</div>
+<div class="group relative bg-white dark:bg-surface-dark rounded-xl shadow-sm hover:shadow-lg transition-all border border-transparent hover:border-gray-200 dark:hover:border-gray-700 cursor-pointer overflow-hidden">
+<div class="absolute top-3 left-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+<input class="size-5 rounded border-gray-300 text-primary focus:ring-primary shadow-sm" type="checkbox"/>
+</div>
+<div class="aspect-[3/4] w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
+<img alt="Patterned silk scarf" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Silk scarf pattern details" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDENmZfyyXgh0cyz0hDYZeoRF3a3e0ngabbR0_rfLMxURuPXnAEJGImPgRXZzrQOdoH94VK0F-HkwtboUzwJsOXk_u9Xd5ilLiD1SofuXo1PXuzrbD78ia4BxO0O1Tqpq99H0qqpIudJK0XAP1wu6JzNMXEvBu27yb6qCVRuvS1Wg548A8X2GeBcnk4MUpzBrvwA6m0_eSxqVzZ_24UjEPbGzT_PYJJjWMAfKtZVm7hodksJXt9WHRHPCEeFaqQ_ORENj6Nh-T9i6yf"/>
+</div>
+<div class="p-3">
+<h3 class="font-bold text-gray-900 dark:text-white text-sm truncate">Silk Scarf Pattern A</h3>
+<div class="flex items-center justify-between mt-1">
+<span class="text-xs text-gray-500 dark:text-gray-400">2023-10-12</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700 bg-transparent text-gray-400 hover:text-primary hover:border-primary hover:bg-primary/5 transition-all cursor-pointer aspect-[3/4] group">
+<div class="bg-gray-100 dark:bg-gray-800 rounded-full p-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">add_a_photo</span>
+</div>
+<span class="mt-3 text-sm font-medium">上传新素材</span>
+</div>
+</div>
+<div class="mt-8 flex justify-center pb-8">
+<button class="text-sm font-medium text-gray-500 hover:text-primary transition-colors">加载更多...</button>
+</div>
+</div>
+</main>
+<aside class="w-80 flex-none bg-surface-light dark:bg-surface-dark border-l border-gray-200 dark:border-gray-700 flex flex-col overflow-y-auto hidden lg:flex shadow-xl z-10">
+<div class="p-5 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between sticky top-0 bg-surface-light dark:bg-surface-dark z-10">
+<h3 class="font-bold text-lg text-gray-900 dark:text-white">素材详情</h3>
+<button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-5 flex flex-col gap-6">
+<div class="flex flex-col gap-3">
+<div class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 aspect-[3/4] relative group">
+<img alt="Selected garment full preview" class="w-full h-full object-cover" data-alt="High resolution yellow floral dress" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJZbAoNYxZA940k1bX7j9OpjnnSOekXl-uI6TBTYYBd-rSZYeJgSyFWf2g7sXzB1ecgIrzJLWy9U261MtqU8h4jwpo8RaAwdwuP4TWgRkgDzN7XY16uYHv0_jpJ_vrjjkAXpFLCge55f2e6aTJ5aaAjshLaygHVJhbrW9FtSTt_HG6d3VV7mXtI2PNhMIvtIszzswmaa8eSgiZsu-8em2Vo_zW74w4ezYvDFQvEp5mUx82reD35cQzK0CPTLHHJr4h1Oh8fK1N3MYb"/>
+<div class="absolute bottom-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="bg-black/60 text-white p-2 rounded-lg backdrop-blur-sm hover:bg-black/80">
+<span class="material-symbols-outlined text-sm">fullscreen</span>
+</button>
+</div>
+</div>
+<div>
+<h2 class="text-xl font-bold text-gray-900 dark:text-white leading-tight">Floral Summer Dress</h2>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">ID: #AS-883920</p>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1">
+<span class="text-xs font-semibold text-gray-500 uppercase">分类</span>
+<span class="text-sm font-medium bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded w-fit">女装</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-xs font-semibold text-gray-500 uppercase">上传时间</span>
+<span class="text-sm text-gray-700 dark:text-gray-300">2023-10-24</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<span class="text-xs font-semibold text-gray-500 uppercase">标签</span>
+<div class="flex flex-wrap gap-2">
+<span class="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2 py-1 rounded-md border border-gray-200 dark:border-gray-700">Floral</span>
+<span class="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2 py-1 rounded-md border border-gray-200 dark:border-gray-700">Summer</span>
+<span class="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2 py-1 rounded-md border border-gray-200 dark:border-gray-700">Yellow</span>
+<button class="text-xs text-primary border border-dashed border-primary/30 px-2 py-1 rounded-md hover:bg-primary/5">+ 添加</button>
+</div>
+</div>
+</div>
+<div class="h-px bg-gray-200 dark:bg-gray-700 w-full my-1"></div>
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<h4 class="font-bold text-sm text-gray-900 dark:text-white">历史生成</h4>
+<a class="text-xs text-primary font-medium hover:underline" href="#">查看全部</a>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<div class="aspect-square rounded-lg overflow-hidden bg-gray-100 relative group cursor-pointer">
+<img alt="AI Model 1" class="w-full h-full object-cover" data-alt="AI generated model wearing yellow dress outdoors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZY7r1EAj2iFNlzPxKbzKla3CXvVA1zULaG8JBuTMEtQWVJc2vFAdQ2Y2NjzzVYusbAiEbckdQC23Ka2tzjRi73awHFmD6H9urMXJOip-4TVYhASTckiKq1KvKRqJHQZ9p2d6Hg5_y7a97yD7THxgUoRWDXIEZnW0lSMjM7iW6QFrdCtrSrpTs_DIrOQTQLQlwwla-b1KtPNyHa0NBqYO7Nvx6nXzlqRnG1KWTKeDw--DWw53tvX4mEbKw6-FRhuYeA14lFnxvifmu"/>
+</div>
+<div class="aspect-square rounded-lg overflow-hidden bg-gray-100 relative group cursor-pointer">
+<img alt="AI Model 2" class="w-full h-full object-cover" data-alt="AI generated model wearing yellow dress in studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjyrkIdmu04gtUucRY0hmknF5wHqWLktOxCdLxkU_9L_VnRg22IXDyNxne5CyU90H07akoxLeVeJ_ubTutfg3yObU82vSmPAKR3TvFpk8Z9229aA1CmoQUSwrN06tI1SDXsaNqerOGOEo4fSVWltTKXOT06agb78N4zWJl3JOxoBoa9wOPQlxuNR2FVDhiDVh_FKZcoVBkHbwMBima2t0mbU3rSwSm6qTBbt5Bma7ONyn2JGHcYYiQFNmktgufQfhSNkLLAD5O_YZ2"/>
+</div>
+<div class="aspect-square rounded-lg overflow-hidden bg-gray-100 relative group cursor-pointer flex items-center justify-center border border-dashed border-gray-300 hover:bg-gray-50 hover:border-primary hover:text-primary transition-colors">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-4 flex gap-3">
+<button class="flex-1 bg-primary hover:bg-blue-600 text-white py-2.5 rounded-lg text-sm font-bold shadow-sm shadow-primary/20 transition-all">
+                        去生成模特
+                    </button>
+<button class="bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 p-2.5 rounded-lg transition-colors border border-gray-200 dark:border-gray-700">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+
+</body></html>

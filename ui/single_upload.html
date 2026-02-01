@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>单件生成 - 上传与模特选择</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0da6f2",
+              "background-light": "#f5f7f8",
+              "background-dark": "#101c22",
+              "surface-light": "#ffffff",
+              "surface-dark": "#18262e",
+              "border-light": "#e2e8f0",
+              "border-dark": "#2d3b45",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white transition-colors duration-200">
+<div class="flex h-screen w-full flex-col overflow-hidden">
+<header class="flex h-16 shrink-0 items-center justify-between border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark px-6 z-20">
+<div class="flex items-center gap-3">
+<div class="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-xl">checkroom</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight">AI服装模特生成平台</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center rounded-full bg-slate-100 p-2 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<div class="flex items-center gap-2 cursor-pointer rounded-full bg-slate-50 dark:bg-slate-800 pr-3 pl-1 py-1 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+<div class="h-8 w-8 overflow-hidden rounded-full bg-slate-200 ring-2 ring-white dark:ring-slate-700 bg-center bg-cover" data-alt="User profile avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBvFQc61fDt10DtEfJnjpr2FgdWgzIxVQQWKkYAR2b730XD8lQ2tpUsGISMQxfu735DXaEGWqSeFVonXydzDGcnR7_fyalBrs7o2Qe7Q7rtBN7wmHy0ozo3q429PZOm5nD1vyCz5OUzrnsBvU9w8sizK-nYbQCJuo1R2jEQ8P_u5XdSXV7k2AqeIIpt5-t71OICwvKgJD0Mc2LzvczZltPeZ2RIMkItPx4fh_itNmgWSq5KuQzIaB0ekwwNbWgJrRvGPg6azS1nwDtJ");'></div>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-200">个人中心</span>
+<span class="material-symbols-outlined text-lg text-slate-400">expand_more</span>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<aside class="flex w-64 flex-col border-r border-border-light bg-surface-light dark:border-border-dark dark:bg-surface-dark shrink-0">
+<nav class="flex-1 space-y-1 p-4">
+<a class="flex items-center gap-3 rounded-lg bg-primary/10 px-4 py-3 text-sm font-bold text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                        工作台
+                    </a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+                        素材库
+                    </a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+                        团队管理
+                    </a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">payments</span>
+                        费用中心
+                    </a>
+</nav>
+<div class="p-4 border-t border-border-light dark:border-border-dark">
+<a class="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+                        系统设置
+                    </a>
+</div>
+</aside>
+<main class="flex flex-1 flex-col overflow-hidden bg-background-light dark:bg-background-dark relative">
+<div class="flex shrink-0 items-center justify-between border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark px-8 py-4">
+<div class="flex flex-col gap-1">
+<h2 class="text-2xl font-bold leading-tight">单件生成 - 上传与模特选择</h2>
+<div class="flex items-center gap-2 text-sm">
+<span class="flex items-center gap-1.5 font-semibold text-primary">
+<span class="flex size-5 items-center justify-center rounded-full bg-primary text-[10px] text-white">1</span>
+                                上传服装
+                            </span>
+<span class="text-slate-400">/</span>
+<span class="flex items-center gap-1.5 font-medium text-slate-500 dark:text-slate-400">
+<span class="flex size-5 items-center justify-center rounded-full border border-slate-300 text-[10px] text-slate-500 dark:border-slate-600 dark:text-slate-400">2</span>
+                                选择模特
+                            </span>
+<span class="text-slate-400">/</span>
+<span class="flex items-center gap-1.5 font-medium text-slate-500 dark:text-slate-400">
+<span class="flex size-5 items-center justify-center rounded-full border border-slate-300 text-[10px] text-slate-500 dark:border-slate-600 dark:text-slate-400">3</span>
+                                选择场景与姿势
+                            </span>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">取消</button>
+<button class="flex items-center gap-2 rounded-lg bg-primary px-6 py-2 text-sm font-bold text-white shadow-sm transition-colors hover:bg-sky-600 disabled:opacity-50 disabled:cursor-not-allowed">
+                            下一步
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="flex flex-1 overflow-hidden">
+<div class="flex w-1/2 flex-col items-center justify-center overflow-y-auto bg-slate-50 p-8 dark:bg-[#0c161b]">
+<div class="flex w-full max-w-lg flex-col gap-4">
+<h3 class="flex items-center gap-2 text-lg font-bold text-slate-900 dark:text-white">
+<span class="material-symbols-outlined text-primary">upload_file</span>
+                                上传服装
+                            </h3>
+<div class="group relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-300 bg-surface-light px-6 py-20 transition-all hover:border-primary hover:bg-blue-50/30 dark:border-slate-700 dark:bg-surface-dark dark:hover:border-primary/50 dark:hover:bg-slate-800/50">
+<div class="mb-4 flex size-16 items-center justify-center rounded-full bg-blue-50 dark:bg-slate-800">
+<span class="material-symbols-outlined text-3xl text-primary">cloud_upload</span>
+</div>
+<p class="mb-1 text-center text-lg font-semibold text-slate-900 dark:text-white">点击或拖拽服装图至此处</p>
+<p class="mb-6 text-center text-sm text-slate-500 dark:text-slate-400">支持 JPG, PNG (最大 10MB)</p>
+<label class="cursor-pointer rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-white transition-transform active:scale-95">
+                                    浏览文件
+                                    <input accept="image/*" class="hidden" type="file"/>
+</label>
+<div class="pointer-events-none absolute inset-0 hidden items-center justify-center rounded-2xl bg-primary/10 backdrop-blur-[1px] group-hover:flex">
+<p class="font-bold text-primary">拖拽到这里！</p>
+</div>
+</div>
+<div class="rounded-lg bg-blue-50 p-4 dark:bg-slate-800/50">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined mt-0.5 text-primary">info</span>
+<div class="text-sm text-slate-600 dark:text-slate-300">
+<p class="font-semibold text-slate-900 dark:text-white">提示：</p>
+                                        为获得最佳效果，请上传平铺的服装图片或带有中性背景的模特图。
+                                    </div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex w-1/2 flex-col border-l border-border-light bg-surface-light dark:border-border-dark dark:bg-surface-dark">
+<div class="flex shrink-0 items-center justify-between border-b border-border-light px-6 py-4 dark:border-border-dark">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">选择模特</h3>
+<div class="flex rounded-lg bg-slate-100 p-1 dark:bg-slate-800">
+<button class="rounded-md bg-white px-3 py-1.5 text-xs font-bold text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white">女性</button>
+<button class="rounded-md px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">男性</button>
+<button class="rounded-md px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">儿童</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-6">
+<div class="grid grid-cols-2 gap-4 lg:grid-cols-3">
+<button class="group relative flex flex-col gap-2 rounded-xl border-2 border-primary bg-blue-50/50 p-2 text-left ring-2 ring-primary/20 ring-offset-2 ring-offset-white transition-all dark:bg-slate-800 dark:ring-offset-[#18262e]">
+<div class="absolute right-2 top-2 z-10 flex size-6 items-center justify-center rounded-full bg-primary text-white shadow-sm">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+<div class="aspect-[3/4] w-full overflow-hidden rounded-lg bg-slate-200">
+<img alt="柔光下的女性模特肖像" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Female model portrait with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH8zz2l1cFIRC--gsQ-C9-aljYbPz-tFvNK97WUZAmEKynYqvnOA2A6OcBzNbvnoRMog8myQiPVcUazC9DxjZSa8tPCCfpdR4PHJskv9GHAQN0AmR72IS01tgq8MRwlpJw1EsnIUzA7MVuRU8Gf9aKR5dDs5WomxPvtDYEu3lP4qGI1UDYpEQPkr71-HuAwMkNLZfcbVRsbopn8FyV0cMwoOLTiXAFas7aQz0BsNnm3b5n7Y0MPIj0ZSqfa1PL9izoeactpMjBb0Ii"/>
+</div>
+<div class="px-1">
+<p class="text-sm font-bold text-slate-900 dark:text-white">索菲亚</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">标准</p>
+</div>
+</button>
+<button class="group relative flex flex-col gap-2 rounded-xl border-2 border-transparent bg-transparent p-2 text-left transition-all hover:bg-slate-50 dark:hover:bg-slate-800/50">
+<div class="aspect-[3/4] w-full overflow-hidden rounded-lg bg-slate-200">
+<img alt="亚洲女性模特休闲站姿" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Female model Asian descent standing casually" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRNSxKvr7o661voNKMyXdGpjqdtoh07vfpw9qEckKdH9SMNNZgzNEc532WWHIScOhVfhRtaYgBSqwi4fslpfBMK5yce8d5u7J96WQmyy8NDc_BT8iAA9_DdRl8wYFmeTy2hkK-UDSpnzfJPFpTg5SkPTWVT_etFobNrPs3EXFJyknasHFxmBhAB-bUtUJn2wXNcsDZBdEDCwbjm1Ni_yS_0EzvUUyT4NsnyfTYSwVemVNb6-j5wOpf1jHYoMuOSMpykK4eaMl9OZN3"/>
+</div>
+<div class="px-1">
+<p class="text-sm font-bold text-slate-900 dark:text-white">尤娜</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">娇小</p>
+</div>
+</button>
+<button class="group relative flex flex-col gap-2 rounded-xl border-2 border-transparent bg-transparent p-2 text-left transition-all hover:bg-slate-50 dark:hover:bg-slate-800/50">
+<div class="aspect-[3/4] w-full overflow-hidden rounded-lg bg-slate-200">
+<img alt="卷发微笑着的女性模特" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Female model with curly hair smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCY7CYKe4qD0csMauJnNUfFwBo3q3ukG4h401bAuD3uu5ZjLKZZog5fesnM5Rd4ai_Jnorx8JNO0ihwCww7eB7TjWWX-PSGmIF-gu1nusYeeAgtnOjbbWX17MpHes2-kMm48q_425e9feaLMeUaP-KsbKXbIyJkAO-r1AQPU_TA7uT2-ZRSGI3HOMXY2aLKUdRbpX0JCq7dRrZw-iTYv2tJ1WTVRGbVeJdzeDTQTwF2ycdBetisMbKNuW1J8G9vXbuhJbScJb6943Hk"/>
+</div>
+<div class="px-1">
+<p class="text-sm font-bold text-slate-900 dark:text-white">玛雅</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">丰满</p>
+</div>
+</button>
+<button class="group relative flex flex-col gap-2 rounded-xl border-2 border-transparent bg-transparent p-2 text-left transition-all hover:bg-slate-50 dark:hover:bg-slate-800/50">
+<div class="aspect-[3/4] w-full overflow-hidden rounded-lg bg-slate-200">
+<img alt="严肃表情的女性模特肖像" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Female model portrait serious expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfwgCv4gItYP4Rjt01o7yqAvJSlnjxGrsTTYBmv-xnRTqo7g14HPaVvaJ3qCXy0ULZlAF-XlJX674T49bChiExXFbYs5RyWX0tEmcKwKUJCAcUBllQal92J5is9qwOC6_rORSUHMiGV6eobQNa6qSKmp5H-4i_FO8XkARLU7hleAw9LoI8iC1fmqZPCiXbgsVK11BIrxKwZ7GpKWh8vGIc6ifq13qemnHWvLTWOK18MB5tYehH3r2U5gAR5NjDpAHyn5Qby3WxHD_X"/>
+</div>
+<div class="px-1">
+<p class="text-sm font-bold text-slate-900 dark:text-white">埃琳娜</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">高挑</p>
+</div>
+</button>
+<button class="group relative flex flex-col gap-2 rounded-xl border-2 border-transparent bg-transparent p-2 text-left transition-all hover:bg-slate-50 dark:hover:bg-slate-800/50">
+<div class="aspect-[3/4] w-full overflow-hidden rounded-lg bg-slate-200">
+<img alt="侧视的女性模特" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Female model looking sideways" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCocF_ELzjBswqJVbGX6y61fMYjVhq9gc5zD9Pqut38W22igOzZCeFRA2z6IpjFXbhz19FshIFXd_ZzUaVYciynN3r9g-7HvaxUJHHVpbsFkSqjsF95vY3abiWXeUt-iTmr0iQi4nuyt7_fw6UN8AtgWoL_jY0gMbqItc4Bzb_bjizt3rJ57M0doxIk-0cAV6WQ2fqyFe08vJVVL_rbSxWUheJCLdrC00xhxu6rOrFdfF-LYHk-AG4w6SLqF4_-1ZPGq4oBRkMcvO9q"/>
+</div>
+<div class="px-1">
+<p class="text-sm font-bold text-slate-900 dark:text-white">莎拉</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">健美</p>
+</div>
+</button>
+<button class="group relative flex flex-col gap-2 rounded-xl border-2 border-transparent bg-transparent p-2 text-left transition-all hover:bg-slate-50 dark:hover:bg-slate-800/50">
+<div class="aspect-[3/4] w-full overflow-hidden rounded-lg bg-slate-200">
+<img alt="城市背景下的女性模特" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Female model in urban setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSMsucw-aVunb3cnxhMXd7Bc_qm25MexI3NW-OLpCt3buuKJZ0xeDT4AMBlYW4fdr4vbPZG945-izi6B5W3VpDxpkzV8vdDiqPBteEyXdbxr4FHvzoL4krMJPZxT-4ik6sSRxmshrrZg0GuIdGEAm_7_-zToVHuqH38joOs7-Upc8Ha1bzCJoxLhJ0ud5M3xHpcfEbLeBPX12Fw4iQHnQAWYIsA0Iaj8reY2LWj2yNEMA3kCylnYpIJcRP8hUjfEe9xOD6Of-1K1YV"/>
+</div>
+<div class="px-1">
+<p class="text-sm font-bold text-slate-900 dark:text-white">克洛伊</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">标准</p>
+</div>
+</button>
+<button class="group relative flex flex-col gap-2 rounded-xl border-2 border-transparent bg-transparent p-2 text-left transition-all hover:bg-slate-50 dark:hover:bg-slate-800/50">
+<div class="aspect-[3/4] w-full overflow-hidden rounded-lg bg-slate-200">
+<img alt="微笑的老年女性模特" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Senior female model smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmS8cIM6jhx3EWMD9svChMUDdGpEAGQjhosIxfx8dtB0iaAlK_ZE5xDZcCGiV5jzCYBG7o1S-D7mbL2maLKpmu1CEYEQyfKZydEKF_-2vdfe1dzE5jaDeWxMxa-j29x_tskPDojP5TmeEkPiuAalydS9p7dO7IONbjJunZzlnqg84Eg248TEY39jVFXmS5hcMj_mJ3O_cD83I4_tUifUyCFWhcRuTp-5ABKsGIbJU8LqY2pnYPl1SWGpHcwLd7ypFtSOKI3XwrKvFc"/>
+</div>
+<div class="px-1">
+<p class="text-sm font-bold text-slate-900 dark:text-white">格蕾丝</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">成熟</p>
+</div>
+</button>
+<button class="group relative flex flex-col gap-2 rounded-xl border-2 border-transparent bg-transparent p-2 text-left transition-all hover:bg-slate-50 dark:hover:bg-slate-800/50">
+<div class="aspect-[3/4] w-full overflow-hidden rounded-lg bg-slate-200">
+<img alt="鲜艳背景下的女性模特" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Female model with vibrant background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgCfuk1aVpGwdLQlxOwELHXqTqPWWf6d4HK0VIZlzCM-crEDLshRFf4zV784CexKDG7MiqXfE4cOrQYUBvMN50puXQuqb7GE2M1OgGwNfP-oSLsGl25rxj-A3h0W2EnLs8wm_mP-OC525q7jJeuNl151k3A6EKv6aGisGV2tUMuKF9kcuWbBpnKt0kQ6cdA_86_7eNVty5QxgXyB8i2jfmgUUGklllIRugFr4v-r2Qrt09BmY9G4XsXE8ePtoGDzYxLTAlDmubDfYU"/>
+</div>
+<div class="px-1">
+<p class="text-sm font-bold text-slate-900 dark:text-white">妮娜</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">标准</p>
+</div>
+</button>
+<button class="group relative flex flex-col gap-2 rounded-xl border-2 border-transparent bg-transparent p-2 text-left transition-all hover:bg-slate-50 dark:hover:bg-slate-800/50">
+<div class="aspect-[3/4] w-full overflow-hidden rounded-lg bg-slate-200">
+<img alt="戴眼镜的女性模特" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Female model with glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDufWxSpsOWYwbS2jzu9C4r9jwbw8ETbv3TGDg4EC-EhX_av3qHB20cswJ1DPHiIVDMvfzRp85ou80VUFHywMZYwOHCuKEgxHqkAGMRabZZAEntbZr1pRwCpy8K4sSiq0rj3dY9MERenSdIcwEc5JxK3UNQQU4EbvUq-96sbMotR89jrHbPKohoGMV_IxBquKu_jLZbvq3rVii5ocHbvi01MKrG4Z0Wijlq7atOAg5eLgpjWeLBdiwYw-GFEjLeBJy1ZBz4kJCAZFK"/>
+</div>
+<div class="px-1">
+<p class="text-sm font-bold text-slate-900 dark:text-white">奥利维亚</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">娇小</p>
+</div>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+</body></html>

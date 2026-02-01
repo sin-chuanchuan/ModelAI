@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>登录/注册 - 极简验证码登录</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0da6f2",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "Noto Sans SC", "sans-serif"],
+                        "sans": ["Inter", "Noto Sans SC", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-[#111618] dark:text-white">
+<div class="min-h-screen w-full flex overflow-hidden">
+<!-- Left Panel: Brand Showcase -->
+<div class="hidden lg:flex w-1/2 relative flex-col justify-between bg-cover bg-center" data-alt="Fashion model wearing stylish colorful clothing against a clean background" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDj38LNF7LzIN8cprOocM0IvcL68rCmbdld3zw_u6bPtGhYpTNiZ8FT0Hx8k4TvfkljMaxuB3ZZusCA9RKDBCRClTeaWZ_PqiJhoy7C8fZGWeISpN_n-bwZ0aRfiU6jxCR8PH8IFF2HcQ_hO9RR6DvywD4f4jMb2KVvWW5z86MPnyza6Nd6SI0hboczlVhM97pd6u8FGAeJ_E6MJlUzcc4czwj8hipxe-8VWjRbhejjc--qoU2IGbOtWIeh0ZXahWZurSGa-2IlPEgo');">
+<!-- Overlay Gradient -->
+<div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70"></div>
+<!-- Content -->
+<div class="relative z-10 flex flex-col h-full justify-between p-12 xl:p-20">
+<!-- Logo Area -->
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[24px]">view_in_ar</span>
+</div>
+<span class="text-white text-xl font-bold tracking-tight">AI Fashion Gen</span>
+</div>
+<!-- Value Proposition -->
+<div class="max-w-lg">
+<h1 class="text-white text-5xl font-black leading-[1.15] mb-6 tracking-tight">
+                    三步生成<br/>商用级服装模特图
+                </h1>
+<p class="text-white/90 text-lg font-normal leading-relaxed">
+                    专为中小电商打造的AI摄影师，无需昂贵外拍，<br/>上传服装平铺图，即刻生成专业模特大片。
+                </p>
+<div class="mt-10 flex gap-4">
+<div class="flex -space-x-3">
+<img alt="User avatar" class="w-10 h-10 rounded-full border-2 border-white object-cover" data-alt="Portrait of a young female user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBW3waibple8aSLVWuAm5PfJrnTCjpuTeNEjqSmyIRQKIs30KVm4jmFfV0FacPkEDRzNYDjphuTXnfyfj69m9auYbhaoZfH8Zdu8JTg3uwxrYrRgC7rrUvAFwjV74OyYXT8cNgv6sTHh1Dr6U2xOhl8f6aB2EHweSM27VySOOB3YXtCgrKO2AHPnCFfPJ2-vUGx2oLKWmcQfVFwM2eSnHRdy4-8U8QuXO4qa4WLhRB34bHpsv9IfD2iKuqdja_DozRT-zNihc43kM0i"/>
+<img alt="User avatar" class="w-10 h-10 rounded-full border-2 border-white object-cover" data-alt="Portrait of a young male user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOYPxs6d84Q_18Bf2R9lucQ_WXEyFtHFLsbiWzKrnXRK3yPVVfpaQbRjbgxmGgN9rfKWbE9qrnkmZAT1wTBslnwovhEotvzdHiGbN8XlFTYCRqAJ17mXQ8F1kbrz-JCBLF1Grs1IeZoB41L91eharoYZfuejTqfy4rORm5fHV4BdKtmqU6cUZnCYqqFL2wSRojQE8lkFjtNIH7KrXt-j7WOfE1W5mgqqS3AZVGYTbKQrCKxD5Yg2fPLq_qg5Mbyoc8ukqTRG8m9J6E"/>
+<img alt="User avatar" class="w-10 h-10 rounded-full border-2 border-white object-cover" data-alt="Portrait of a smiling user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfmUpBAMHXnjjJc4hxlrgt34wqRtp6A1ryWLXC8bjnumC794h1omHX9MGlSsoBj1VLe1_1thRltJVapyNHMhrR-r0_k-05qFHVD4IrmRS93mHAukk3B1M-KsmSmCO1NkwHbneEEHODrGw6s2mp66eM0zBWhR_2tS1lC1gim99vBbV6eiSdyWz7jQJ1NreRCrZzv9yN2ql3SnK0tzH8NDKzIIBPdAT5_aruWHsLv-x1-7tGsn46I0tRq6_fr2qee9lZfiQc1emjcK5P"/>
+<div class="w-10 h-10 rounded-full border-2 border-white bg-white/20 backdrop-blur-sm flex items-center justify-center text-xs text-white font-medium">+2k</div>
+</div>
+<div class="flex flex-col justify-center">
+<div class="flex text-yellow-400 text-xs">
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+</div>
+<span class="text-white/80 text-xs font-medium mt-0.5">已有 2000+ 店铺使用</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Panel: Login Form -->
+<div class="w-full lg:w-1/2 flex flex-col justify-center items-center bg-white dark:bg-background-dark p-6 sm:p-12 overflow-y-auto">
+<div class="w-full max-w-[420px] flex flex-col gap-8">
+<!-- Mobile Logo (Only visible on small screens) -->
+<div class="lg:hidden flex items-center gap-2 mb-4">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[20px]">view_in_ar</span>
+</div>
+<span class="text-[#111618] dark:text-white text-lg font-bold">AI Fashion Gen</span>
+</div>
+<!-- Header -->
+<div>
+<h2 class="text-[#111618] dark:text-white text-3xl font-bold tracking-tight mb-2">验证码登录</h2>
+<p class="text-[#607c8a] dark:text-gray-400 text-sm">
+                    未注册手机号验证后将自动创建账号
+                </p>
+</div>
+<!-- Form -->
+<form class="flex flex-col gap-5" onsubmit="event.preventDefault();">
+<!-- Phone Input -->
+<div class="flex flex-col gap-2">
+<label class="text-[#111618] dark:text-white text-sm font-medium" for="phone">手机号</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-[#607c8a] text-[20px]">smartphone</span>
+</div>
+<input class="form-input block w-full pl-11 pr-4 py-3.5 rounded-lg border border-[#dbe2e6] dark:border-gray-700 bg-white dark:bg-gray-800 text-[#111618] dark:text-white placeholder-[#607c8a] focus:border-primary focus:ring-primary focus:ring-1 transition-colors text-base" id="phone" placeholder="请输入手机号" required="" type="tel"/>
+</div>
+</div>
+<!-- Code Input -->
+<div class="flex flex-col gap-2">
+<label class="text-[#111618] dark:text-white text-sm font-medium" for="code">验证码</label>
+<div class="flex gap-3">
+<div class="relative flex-1">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-[#607c8a] text-[20px]">shield_lock</span>
+</div>
+<input class="form-input block w-full pl-11 pr-4 py-3.5 rounded-lg border border-[#dbe2e6] dark:border-gray-700 bg-white dark:bg-gray-800 text-[#111618] dark:text-white placeholder-[#607c8a] focus:border-primary focus:ring-primary focus:ring-1 transition-colors text-base" id="code" maxlength="6" placeholder="请输入6位验证码" required="" type="text"/>
+</div>
+<button class="shrink-0 px-5 rounded-lg border border-[#dbe2e6] dark:border-gray-700 text-primary hover:bg-primary/5 active:bg-primary/10 transition-colors font-semibold text-sm h-auto min-w-[120px]" type="button">
+                            获取验证码
+                        </button>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="mt-4 w-full bg-primary hover:bg-primary/90 text-white font-bold py-3.5 px-6 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-center gap-2 group" type="submit">
+<span>立即进入</span>
+<span class="material-symbols-outlined text-[20px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+<!-- Terms & Conditions -->
+<div class="flex items-start gap-3 mt-2">
+<div class="flex items-center h-5">
+<input class="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700" id="terms" type="checkbox"/>
+</div>
+<label class="text-xs text-[#607c8a] dark:text-gray-400 leading-5" for="terms">
+                        我已阅读并同意
+                        <a class="text-primary hover:underline font-medium" href="#">《用户协议》</a>
+                        和
+                        <a class="text-primary hover:underline font-medium" href="#">《隐私政策》</a>
+                        。未注册手机号验证后将自动创建账号。
+                    </label>
+</div>
+</form>
+<!-- Divider / Alternative login (Optional but adds balance) -->
+<div class="relative mt-4">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-gray-200 dark:border-gray-800"></div>
+</div>
+<div class="relative flex justify-center">
+<span class="bg-white dark:bg-background-dark px-3 text-xs text-gray-400">其他登录方式</span>
+</div>
+</div>
+<div class="flex justify-center gap-6 mt-1">
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border border-gray-100 dark:border-gray-700">
+<svg aria-hidden="true" class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M12.037 21.998a10.313 10.313 0 0 1-7.168-3.049 9.888 9.888 0 0 1-2.868-7.118 9.947 9.947 0 0 1 3.064-6.949A10.37 10.37 0 0 1 12.212 2h.176a9.935 9.935 0 0 1 6.614 2.564L16.457 6.88a6.187 6.187 0 0 0-4.131-1.566 6.9 6.9 0 0 0-4.792 1.996 6.909 6.909 0 0 0-1.928 4.755c0 1.83.693 3.513 1.948 4.767a6.837 6.837 0 0 0 4.863 2.013c1.928 0 3.518-.627 4.542-1.685.83-.86 1.34-1.996 1.543-3.385h-6.17v-3.83h10.43c.125.753.18 1.488.18 2.308 0 1.916-.525 3.82-1.638 5.297-1.332 1.76-3.483 2.809-5.992 2.854Z" fill-rule="evenodd"></path>
+</svg>
+</button>
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border border-gray-100 dark:border-gray-700">
+<svg aria-hidden="true" class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M12 2C6.477 2 2 6.463 2 11.97c0 4.404 3.013 8.125 7.182 9.43.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.924.635-3.542-1.235-3.542-1.235-.454-1.153-1.11-1.46-1.11-1.46-.955-.653.072-.64.072-.64 1.055.074 1.61 1.083 1.61 1.083.938 1.607 2.46 1.143 3.059.874.096-.68.367-1.143.668-1.405-2.335-.265-4.787-1.167-4.787-5.195 0-1.147.41-2.085 1.082-2.819-.108-.265-.47-1.333.103-2.78 0 0 .883-.282 2.89 1.077a10.05 10.05 0 0 1 2.63-.354c.892.004 1.785.12 2.63.354 2.006-1.36 2.889-1.077 2.889-1.077.574 1.447.212 2.515.104 2.78.674.734 1.082 1.672 1.082 2.819 0 4.038-2.455 4.927-4.796 5.186.377.325.714.967.714 1.948 0 1.406-.012 2.54-.012 2.885 0 .267.18.578.688.48C18.989 20.093 22 16.373 22 11.97 22 6.463 17.522 2 12 2Z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+<p class="text-center text-xs text-gray-400 mt-2">© 2024 AI Fashion Gen Inc. All rights reserved.</p>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>批量生成 - 统一参数配置</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                    "primary": "#0da6f2",
+                    "primary-dark": "#0b8acb",
+                    "background-light": "#f5f7f8",
+                    "background-dark": "#101c22",
+                    "surface-light": "#ffffff",
+                    "surface-dark": "#1a2c35",
+                    "text-main": "#111618",
+                    "text-secondary": "#607c8a",
+                },
+                fontFamily: {
+                    "display": ["Inter", "sans-serif"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-main dark:text-white overflow-hidden h-screen flex flex-col">
+<header class="flex-none flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e5e7eb] dark:border-[#2a3c45] bg-surface-light dark:bg-surface-dark px-6 lg:px-8 py-3 z-30 relative shadow-sm">
+<div class="flex items-center gap-3">
+<div class="size-9 flex items-center justify-center bg-primary text-white rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-2xl">checkroom</span>
+</div>
+<div>
+<h1 class="text-lg font-bold leading-none tracking-tight">AI模特生成</h1>
+<span class="text-[10px] font-medium text-text-secondary uppercase tracking-wider">Enterprise</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="size-8 flex items-center justify-center text-text-secondary hover:text-primary transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<div class="h-6 w-px bg-gray-200 dark:bg-gray-700"></div>
+<div class="flex items-center gap-3 pl-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 p-1.5 pr-3 rounded-full transition-colors border border-transparent hover:border-gray-200 dark:hover:border-gray-700">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8 ring-2 ring-gray-100 dark:ring-gray-700" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAZbuz8I5716IKZHAWlJtvpRFXH7tdDs5S91hVLniMIDEAUEh_yZfQO8P8bOaKE_BeKGlsYppF0gj7F4DtkQ0A7K_HmpVoutf79hzbafwTVfQsSeuHbedh41Mu76OnfeTXKrQs4jFj34Xj8Lc9l6BaoAlf1x8e-fJC4EguFgGalIjieSP7GBo7yhntnkqCtp2hg5J9xudfWEGwwNZVgI43KfSf5TQc3AvDGWqDAE1USHKxjD1fFd7aCCr86Qv8DcFxEznibij9lfxAR");'></div>
+<div class="flex flex-col items-start leading-none">
+<span class="text-sm font-semibold">138****8888</span>
+<span class="text-[10px] text-text-secondary">个人中心</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary text-lg">arrow_drop_down</span>
+</div>
+</div>
+</header>
+<div class="flex-1 flex overflow-hidden">
+<nav class="w-60 flex-none flex flex-col bg-white dark:bg-[#15232b] border-r border-[#e5e7eb] dark:border-[#2a3c45] z-20">
+<div class="flex-1 overflow-y-auto py-6 px-3 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary/10 text-primary font-medium transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                工作台
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary hover:bg-gray-50 dark:hover:bg-surface-dark hover:text-text-main dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                素材库
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary hover:bg-gray-50 dark:hover:bg-surface-dark hover:text-text-main dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+                团队管理
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary hover:bg-gray-50 dark:hover:bg-surface-dark hover:text-text-main dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">payments</span>
+                费用中心
+            </a>
+</div>
+<div class="p-4 border-t border-gray-100 dark:border-gray-800">
+<div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-3 text-center">
+<p class="text-xs font-semibold text-primary mb-1">升级专业版</p>
+<p class="text-[10px] text-text-secondary">解锁更多AI模特与场景</p>
+</div>
+</div>
+</nav>
+<main class="flex-1 flex flex-col min-w-0 bg-background-light dark:bg-background-dark">
+<div class="flex-none bg-surface-light dark:bg-surface-dark border-b border-[#e5e7eb] dark:border-[#2a3c45] px-6 py-3">
+<div class="flex items-center gap-2">
+<a class="text-text-secondary dark:text-gray-400 text-sm font-medium leading-normal hover:text-primary transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[18px]">upload_file</span>
+                    上传素材
+                </a>
+<span class="material-symbols-outlined text-text-secondary text-sm">chevron_right</span>
+<span class="text-primary text-sm font-bold leading-normal flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+                    参数配置
+                </span>
+<span class="material-symbols-outlined text-text-secondary text-sm">chevron_right</span>
+<span class="text-text-secondary dark:text-gray-400 text-sm font-medium leading-normal">生成队列</span>
+</div>
+</div>
+<div class="flex-1 flex overflow-hidden">
+<aside class="w-[300px] xl:w-[340px] flex flex-col border-r border-[#e5e7eb] dark:border-[#2a3c45] bg-white dark:bg-[#15232b]">
+<div class="p-4 border-b border-[#e5e7eb] dark:border-[#2a3c45] flex justify-between items-center bg-white dark:bg-[#15232b] z-10">
+<div>
+<h3 class="text-base font-bold leading-tight">已选商品</h3>
+<p class="text-xs text-text-secondary mt-1">12件商品待配置</p>
+</div>
+<span class="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100 px-2 py-0.5 rounded text-[10px] font-bold">就绪</span>
+</div>
+<div class="flex-1 overflow-y-auto p-3">
+<div class="grid grid-cols-2 gap-3">
+<div class="group relative bg-background-light dark:bg-background-dark rounded-lg p-2 border border-transparent hover:border-primary transition-all">
+<div class="w-full aspect-[3/4] bg-center bg-cover rounded mb-2 relative overflow-hidden" data-alt="Red summer dress on hanger" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCpt30ydupBQPKqy15-9SDBPBRcPEV_RsU9O7yXdy7gxqKEOHb_Lx_yFaZxzkHG5uLOqO_3f8a1y0vFazQmF1LV9NzKvkae36u8hQqS3l4PiqYvtdgNEKFceFKu0aLy8Z5hwnL7gDLi3NDonu5-3dibscoDfpvDHCyx-jA4vDZOHciwBjYVpofVCuvgO8bX6Mf8RHgHdWP4jvGctPU9IVuXLuJ3wE81oowiQX193QG_rVEd2ef8UwXCjyBmnQo3XtL4ABpAJfyYSDyr");'>
+<div class="absolute top-1 right-1 bg-white/90 dark:bg-black/60 rounded-full p-1 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-sm text-gray-600 dark:text-gray-300">visibility</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<p class="text-xs font-medium truncate w-16">img_001.jpg</p>
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+</div>
+</div>
+<div class="group relative bg-background-light dark:bg-background-dark rounded-lg p-2 border border-transparent hover:border-primary transition-all">
+<div class="w-full aspect-[3/4] bg-center bg-cover rounded mb-2 relative overflow-hidden" data-alt="Blue denim jacket folded" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA_Mj4UoIhSTS0fkQpw6LJtwbUJYVwizfJIGHqFP7zrYjfBnvWsJ3EZAdGR-V9wLLh6EoavV-bM-dygUfEISHhuN4LLwj88r_2BiWYH3eXN99rMzlrOd1LkSMYL8JAXXS5Mi7rMRYB8qDPAgXK9uNvMKJewHlmhyoX0gO6a-IQzih-b3whtbq9LsstHRHwQvZC1BSD9Duk5dofifxasWqxHk3KYXzX9awV2VjOLrYfaNTFOIZxzXfkkiXjOycWVTLa3eVFGt_2nL6un");'></div>
+<div class="flex items-center justify-between">
+<p class="text-xs font-medium truncate w-16">img_002.jpg</p>
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+</div>
+</div>
+<div class="group relative bg-background-light dark:bg-background-dark rounded-lg p-2 border border-transparent hover:border-primary transition-all">
+<div class="w-full aspect-[3/4] bg-center bg-cover rounded mb-2 relative overflow-hidden" data-alt="White t-shirt flat lay" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAXNFjLq0OV51tK0eGZV-waThCz9mgguVrDWYLEYgyJgF3MyCDmKfdiqWvHdv3V0f2JeMh9G8BOP8m21-gsTBcLv4-ouFwBkFIBSKSAxrZW6DXHlbSRYfsRL2_0fVOirpd1kA67KGwp_Hpx9yzG1jM3yxLmatbLRGYsVaR3IpFDBQCDE5tqCHOmtiln2xpfTAhXkP2PHTSmrZbA7kA0yCt3hTZtj5Z7kuK-Ltt1753L9bWWlJaSQwXE_kn7b__WErJSlOAJZzVjFhN9");'></div>
+<div class="flex items-center justify-between">
+<p class="text-xs font-medium truncate w-16">img_003.jpg</p>
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+</div>
+</div>
+<div class="group relative bg-background-light dark:bg-background-dark rounded-lg p-2 border border-transparent hover:border-primary transition-all">
+<div class="w-full aspect-[3/4] bg-center bg-cover rounded mb-2 relative overflow-hidden" data-alt="Black leather skirt" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDF3xGnks7x2r6YKicIBSJWklgEHjMx3riLRDig1u8jRh19lNDWmbyAru5QB397QLBOQSiC_En_F40AH4k9wKA0Ru2X4oPcV457XzZwUkiH95-nllUr22QJZabw78gGD7iTEjUFBS2ZlkJgCVFQqOlY5jMPt2CjZ12Opz7EAaAcDR7rMT5R4Jp2ndXnNYllEg0Uuu-auPbJtYtMDnb9aFpZ7yudDNDCcXfjRriWaNcqEmNrfIrx44oxRdF3cH96gDZAQ5ruQuDddVyM");'></div>
+<div class="flex items-center justify-between">
+<p class="text-xs font-medium truncate w-16">img_004.jpg</p>
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+</div>
+</div>
+<div class="group relative bg-background-light dark:bg-background-dark rounded-lg p-2 border border-transparent hover:border-primary transition-all">
+<div class="w-full aspect-[3/4] bg-center bg-cover rounded mb-2 relative overflow-hidden" data-alt="Floral blouse details" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBpw2Q_4f6h9FelF0HcByzvX9cNhTTkhI-DxUpS29C3xHnkwc7VADnxKM53fRFhj-cphxkuHFgzmaotMS3xP_0etF8jcksgABaPCPypZ3DGY2XUoLwX3B3lFVy74mMDaT01SerzE4cZXp2euQHuX3_hKfJ8VupyzW7vNVzSQQFL6VRK2I9tBB33iFnfw5THIQMkrymZuZJPlY8LRxrhJMDmitEjwJf1g0M_Nu3na9zZe_YW_j1kt75ZLEjGf5_6xJFYllvbdogco9WT");'></div>
+<div class="flex items-center justify-between">
+<p class="text-xs font-medium truncate w-16">img_005.jpg</p>
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+</div>
+</div>
+<div class="group relative bg-background-light dark:bg-background-dark rounded-lg p-2 border border-transparent hover:border-primary transition-all">
+<div class="w-full aspect-[3/4] bg-center bg-cover rounded mb-2 relative overflow-hidden" data-alt="Beige trousers folded" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB7WdlSXb5IcJGxbU61tWYdUeNaSPfoKKsYh-QuDV9YX1cN5TSM5ONl61v-4Db0JuseeCHwhD6s0ec84smyaO6F0LOPjvlVUBdEFWaxr3sBAhkfCejJi18LzgMxklYAHUZfFWwaNZVcvcDZ5ZBx02eFXDy2eDG8kBgpQdZ5qxjvqs0ElR5m0hCLOPNKwWYLMW1NZTW4Qz4QEEsWVQpYviKK6TchTwiGeKPlRsHQooD4o9rnEgBTj9TD38iyn1P2qUfYe9V3fv4sWj3f");'></div>
+<div class="flex items-center justify-between">
+<p class="text-xs font-medium truncate w-16">img_006.jpg</p>
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<section class="flex-1 flex flex-col h-full bg-background-light dark:bg-background-dark relative">
+<div class="px-8 py-6 pb-2">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h1 class="text-2xl font-bold text-text-main dark:text-white">批量生成配置</h1>
+<p class="text-text-secondary dark:text-gray-400 mt-1">统一配置生成参数，应用于本批次所有商品。</p>
+</div>
+</div>
+<div class="bg-blue-50 dark:bg-[#0c1f2e] border-l-4 border-primary p-4 rounded-r-md flex items-start gap-3 shadow-sm">
+<span class="material-symbols-outlined text-primary">info</span>
+<div>
+<p class="text-sm font-medium text-blue-900 dark:text-blue-100">全局配置模式</p>
+<p class="text-xs text-blue-700 dark:text-blue-300 mt-0.5">以下配置将应用于所有12件已选商品。后续步骤可对单图进行微调。</p>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto px-8 pb-32">
+<div class="mt-6 mb-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold flex items-center gap-2">
+<span class="flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary text-sm font-bold">1</span>
+                                选择模特
+                            </h3>
+<div class="bg-white dark:bg-surface-dark p-1 rounded-lg border border-gray-200 dark:border-gray-700 inline-flex">
+<button class="px-4 py-1.5 text-sm font-medium rounded bg-primary text-white shadow-sm transition-all">女模</button>
+<button class="px-4 py-1.5 text-sm font-medium rounded text-text-secondary hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">男模</button>
+<button class="px-4 py-1.5 text-sm font-medium rounded text-text-secondary hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">童模</button>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+<div class="cursor-pointer group">
+<div class="relative aspect-square rounded-full overflow-hidden mb-2 ring-4 ring-primary ring-offset-2 dark:ring-offset-background-dark">
+<div class="w-full h-full bg-cover bg-center" data-alt="Portrait of a young asian woman model" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDvfo7Xl3jWkXnENFr3NaW0RQxBg3vQV53gRTB-9Jbkqaa9mGGA1LWVS5PJv9X-AlrjEcOypW1SiW0T21cqhN231DFoITt74BvcTK-zPKKfxNLAsUMne46S2A9goiuYEHCM9tovwtvrLVSYmvMF7iP102DpgDx3U3yDTamJcFnjbrOl-auC6SAA83qoh72Un--2hj0-GDfjHJg3pMMeUIvXY_WsR-8pxEhnTgRDjLwga7wFH0irjtYOXXZcnaA0NOKesvX-ltX_83QO");'></div>
+<div class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-white drop-shadow-md">check</span>
+</div>
+</div>
+<p class="text-center text-sm font-bold text-primary">Luna</p>
+</div>
+<div class="cursor-pointer group">
+<div class="relative aspect-square rounded-full overflow-hidden mb-2 ring-1 ring-gray-200 dark:ring-gray-700 hover:ring-primary transition-all">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform" data-alt="Portrait of a caucasian woman model" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC6DYWpddwGx5r-0m74Vz_XgSlEKtVOvNZ472w6gGCPCWF8KaWlKA3zzygHxBOehziYQ7oBhPFUEY5_mstxQG2DJyCg8FpehB41Babdn-z-XpbxhG01q0v5Wu-LpC7Yz5b8JuNMDw6cvDsIvkZ8z-CMHc_GGH98rKRVJDb9oGa3rkKlTEjAAohoW4GfBalSq-9FaKFLRAAtocs0q2cIZ4OitskWvePwjNgBjM1lH6SOUWRqGp2cRp_eo1FyS636KT2f2T7G16CwQbRK");'></div>
+</div>
+<p class="text-center text-sm font-medium text-text-secondary">Sarah</p>
+</div>
+<div class="cursor-pointer group">
+<div class="relative aspect-square rounded-full overflow-hidden mb-2 ring-1 ring-gray-200 dark:ring-gray-700 hover:ring-primary transition-all">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform" data-alt="Portrait of a african american woman model" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA3YFcMhv5hAYPDlQnvurnUgDtp6III834WN43-znEYJSNOaekERMUd6eaKf4hYN7K01irZuAzSrZUeVvbks5BUltRmxUUDIeGkUwYqKh55rApDRmMgKdLzi5UXqnQfypLaaMWxEE1COFz-cUr019WGhYiLKeCds2De8zea1XWuVS1-8_WpOQDuGGpHHXjJEiJBaz5xFazThc2ot80fvKHRSzeeJFvit1JlDtJraXTEDx2wBMgeVjJAfMlQH6fFlTwIXbr8EIhEh-JP");'></div>
+</div>
+<p class="text-center text-sm font-medium text-text-secondary">Nia</p>
+</div>
+<div class="cursor-pointer group">
+<div class="relative aspect-square rounded-full overflow-hidden mb-2 ring-1 ring-gray-200 dark:ring-gray-700 hover:ring-primary transition-all">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform" data-alt="Portrait of a blonde woman model" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBHVRT-lL154CGy-S7ZWXQFNszs_xPOlrXtqAfdPinv0Tdq-X9ePNwqN345UTZQ16mFTSS6ImYDkLAJA1MMPaeU_As8CoeuiD_CWH7Happ_JcIR5sNfhjo7Pm7o9eTK0QS4KkJWJc4_LZq3uQUqcxdgKsq9qRZ1zWhaDKcVFAPEz4-1hKELW616OzafRsdQyIaJNucTOGRKSZxRmOFT-0FKnV81mbg_rrYKBGkwSv9iyOvd5CoiHujH-SUFdPPOB1MzXh4RbaBVEcwp");'></div>
+</div>
+<p class="text-center text-sm font-medium text-text-secondary">Emma</p>
+</div>
+<div class="cursor-pointer group">
+<div class="relative aspect-square rounded-full overflow-hidden mb-2 ring-1 ring-gray-200 dark:ring-gray-700 hover:ring-primary transition-all">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform" data-alt="Portrait of a latina woman model" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDnFJxfYEWyhpSbawnTIQ8V8b4i8T9vXPcD1yzBAmuielGUcDhEtJ4n53Gpa9NuGJ5Nux5hd0pw4zmfl2hZRGcJb-aj1Gcc5q07FsCeouKfsY2HiAzsg1Za3Jg2vvgfwRv5g7looOw8-ZLurRAyj2A23VwSnZ9CyMQacwL30l6mkWDSQYAy28mk4O24A-JOsKGhlGiidi2l-_c5t_JD_xmnbJd_ZdljwSnsrztCC0yq96I3DlOuFKgmANgbskGfOnqxQhWTV9oAtH2O");'></div>
+</div>
+<p class="text-center text-sm font-medium text-text-secondary">Sofia</p>
+</div>
+</div>
+</div>
+<hr class="border-gray-200 dark:border-gray-700 mb-8"/>
+<div class="mb-8">
+<h3 class="text-lg font-bold flex items-center gap-2 mb-4">
+<span class="flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary text-sm font-bold">2</span>
+                            选择场景
+                        </h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+<label class="cursor-pointer group">
+<input checked="" class="peer sr-only" name="scene" type="radio"/>
+<div class="rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden bg-white dark:bg-surface-dark peer-checked:ring-2 peer-checked:ring-primary peer-checked:border-primary transition-all">
+<div class="h-28 bg-gray-100 flex items-center justify-center bg-cover bg-center" data-alt="Abstract white studio background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB8kEmSMncMzi_jNq4k5k36BnIIBvHdEMOstjr762i9ew07paHcTT71KakKrxR-8JKBmX-5ucxncn6vRINxVQLA9UwRMGq8uCxSZ_ieL-dCO9Er6JGBB98nJ1o1OuYWV_8MIgNHnYm4VLbXnzHqwVjod_pf7U5z1C8LH7vLOmb1XgR0zNaPQ4O7O8uOV1h2R-KzSIjtgSUizK3nU2TntXtf_ImM9Uj8BjIbMQwOLIeW7WBnaRa6_axcqYA0tVkmnCXm7J34oR4Eqkyd");'>
+<div class="bg-white/80 dark:bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold shadow-sm">简约风</div>
+</div>
+<div class="p-3 flex items-center justify-between">
+<span class="font-medium text-sm">纯白摄影棚</span>
+<span class="material-symbols-outlined text-primary opacity-0 peer-checked:opacity-100 transition-opacity">check_circle</span>
+</div>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="peer sr-only" name="scene" type="radio"/>
+<div class="rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden bg-white dark:bg-surface-dark peer-checked:ring-2 peer-checked:ring-primary peer-checked:border-primary transition-all">
+<div class="h-28 bg-gray-100 flex items-center justify-center bg-cover bg-center" data-alt="Grey concrete texture background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC7idgOCgCEyuUfNlVif_amtRSNbUcJM6eP-c2h4nZqpf9BlXY5QF1AGOv1BiInu9XfgwCRHHhXkkNoyzBXv0RCfyOufdYaXJCNqoRsGvXsCkj0kobrUtxTUWKshxzADx0-73s-vXoPl_cTxkHN0PMU3DYd2rsC6aJhXet6bSG-s1f78KCHxCnyZdX5l2Tjz5Ddzo0qhQNXPJL_VtHGJXua_RrVH_xv2Wd2hA1r8JvTdeBb56xDd9Dbqo5r4uq4iHQdlmpmjH53gPLD");'>
+</div>
+<div class="p-3 flex items-center justify-between">
+<span class="font-medium text-sm">高级灰</span>
+<span class="material-symbols-outlined text-primary opacity-0 peer-checked:opacity-100 transition-opacity">check_circle</span>
+</div>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="peer sr-only" name="scene" type="radio"/>
+<div class="rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden bg-white dark:bg-surface-dark peer-checked:ring-2 peer-checked:ring-primary peer-checked:border-primary transition-all">
+<div class="h-28 bg-gray-100 flex items-center justify-center bg-cover bg-center" data-alt="Blurry city street background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD85YGDkESavx2Ud5SoDb2FXUmZdHmP2rlEiWBYxIcSHAtKjCByf_VyAHhEbNfO6Gy8m6kTIf72FyKPsbD-4gmALpVzDTcmBbt-liPei0ajHZlWvvRrVfb5bG3o2vFLtfv5Vm1CgB2eRzrcfk8LKCuKnRnQiblFrpN6WsIwGaPCoVekQ9iUyTcU_qRgmkHn0YP68Fco48ELxzi_QSFqGDL5j5LqQI47z3PMQTQ-BWWsokArXbNHIjszEF7b-Qasqc9FRe5pcL2OEo0u");'>
+<div class="bg-white/80 dark:bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold shadow-sm">都市</div>
+</div>
+<div class="p-3 flex items-center justify-between">
+<span class="font-medium text-sm">城市街拍</span>
+<span class="material-symbols-outlined text-primary opacity-0 peer-checked:opacity-100 transition-opacity">check_circle</span>
+</div>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="peer sr-only" name="scene" type="radio"/>
+<div class="rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden bg-white dark:bg-surface-dark peer-checked:ring-2 peer-checked:ring-primary peer-checked:border-primary transition-all">
+<div class="h-28 bg-gray-100 flex items-center justify-center bg-cover bg-center" data-alt="Cozy cafe interior background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDGGjQ06VNzEbFWkfltbOAqG92eSH_1uESH2XulPRMuUCgdLAcPDXe29qg9lQiu0R1A2i5lD7QKjiQqrR6ydMsAASUOV5rlyAvVQwUWvGICYWuQjcaaL3WcQ1jxU8FVFDLEVJHU-i0dyzsqe-zgQZuBkiWOBgYU6a76vUphrtw6OYC14O5LNYrZo1ekx298523iE9W2EIshmRbca_vJJIU2NWp79Q8DHveD6xnywftfB979BksCB4Pza0rjTJA9SyJoOwlRkB4--ujO");'>
+</div>
+<div class="p-3 flex items-center justify-between">
+<span class="font-medium text-sm">舒适咖啡馆</span>
+<span class="material-symbols-outlined text-primary opacity-0 peer-checked:opacity-100 transition-opacity">check_circle</span>
+</div>
+</div>
+</label>
+</div>
+</div>
+<hr class="border-gray-200 dark:border-gray-700 mb-8"/>
+<div class="mb-8">
+<h3 class="text-lg font-bold flex items-center gap-2 mb-4">
+<span class="flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary text-sm font-bold">3</span>
+                            选择姿势
+                        </h3>
+<div class="flex flex-wrap gap-3">
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="pose" type="radio"/>
+<span class="px-5 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-surface-dark text-sm font-medium peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">accessibility_new</span>
+                                    正面站立
+                                </span>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="pose" type="radio"/>
+<span class="px-5 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-surface-dark text-sm font-medium peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">directions_walk</span>
+                                    行走动态
+                                </span>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="pose" type="radio"/>
+<span class="px-5 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-surface-dark text-sm font-medium peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">airline_seat_recline_normal</span>
+                                    坐姿
+                                </span>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="pose" type="radio"/>
+<span class="px-5 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-surface-dark text-sm font-medium peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">rotate_right</span>
+                                    侧身3/4
+                                </span>
+</label>
+</div>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 right-0 bg-white dark:bg-surface-dark border-t border-gray-200 dark:border-gray-700 p-6 flex items-center justify-between shadow-lg z-30">
+<div class="hidden sm:block">
+<p class="text-sm font-medium text-text-main dark:text-white">预计耗时: <span class="text-text-secondary">~2分钟</span></p>
+<p class="text-xs text-text-secondary mt-0.5">将扣除12点数</p>
+</div>
+<div class="flex items-center gap-4 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none px-6 py-3 rounded-lg border border-gray-300 dark:border-gray-600 text-text-main dark:text-white font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                            存为草稿
+                        </button>
+<button class="flex-1 sm:flex-none px-8 py-3 rounded-lg bg-primary hover:bg-primary-dark text-white font-bold shadow-lg shadow-primary/30 flex items-center justify-center gap-2 transition-all transform active:scale-95">
+<span class="material-symbols-outlined">auto_awesome</span>
+                            开始批量生成 (12张)
+                        </button>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+
+</body></html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>批量生成 - AI服装模特生成平台</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0da6f2",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white h-screen flex flex-col overflow-hidden">
+<header class="h-16 bg-white dark:bg-background-dark border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 lg:px-6 z-50 shrink-0">
+<div class="flex items-center gap-3">
+<div class="size-8 flex items-center justify-center text-primary bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-2xl">checkroom</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-lg font-bold leading-tight tracking-tight">AI Model Gen</h1>
+<span class="text-[10px] text-slate-500 font-medium uppercase tracking-wider">Business</span>
+</div>
+</div>
+<div class="flex items-center gap-3 lg:gap-4">
+<button class="p-2 text-slate-500 hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+</button>
+<div class="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-1 hidden sm:block"></div>
+<div class="flex items-center gap-3 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 p-1.5 rounded-lg transition-colors">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8 border border-slate-200 dark:border-slate-700" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBfR4egGyd6gEdXBX-0yDuQZs3nXTkMEfzlU36-n7yxj39e241DIFfJ0EE54KWviXe4bBMRk1wfUe9ziAFmmIAMtOfBYVNKXplGJJWBhwpbAxs3aDC90orwYdfI90hpHJ4bsc3RaaKhuYliHxODqpHx0_p5ZdfNxENnW8OY8LoxleLDgdulOfMHaTSqSYOqmeajTKT6zpMZ21vF8T_UdMphHe6EG0lsOjr3UL43esr1bf7gR4L2jvOI1zSDoa1u2bIEKibum1p6G61r");'>
+</div>
+<div class="hidden md:flex flex-col text-sm">
+<span class="font-medium leading-none">Admin User</span>
+<span class="text-xs text-slate-500 mt-0.5">管理员</span>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-sm hidden md:block">expand_more</span>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<aside class="w-20 lg:w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 transition-all duration-300">
+<nav class="flex-1 px-3 py-6 space-y-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium group transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="hidden lg:block">工作台</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium group transition-colors" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">inventory_2</span>
+<span class="hidden lg:block">素材库</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium group transition-colors" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">group</span>
+<span class="hidden lg:block">团队管理</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium group transition-colors" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">payments</span>
+<span class="hidden lg:block">费用中心</span>
+</a>
+</nav>
+<div class="hidden lg:block p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="bg-slate-50 dark:bg-slate-800 rounded p-3">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-semibold text-slate-700 dark:text-slate-300">本月额度</span>
+<span class="text-xs text-primary font-bold">85%</span>
+</div>
+<div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-1.5">
+<div class="bg-primary h-1.5 rounded-full" style="width: 85%"></div>
+</div>
+<p class="text-[10px] text-slate-400 mt-2">剩余 120 张生成额度</p>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col overflow-hidden relative bg-background-light dark:bg-background-dark">
+<div class="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth">
+<div class="max-w-5xl mx-auto flex flex-col gap-6">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
+<div>
+<div class="flex items-center gap-2 text-sm text-slate-500 mb-2">
+<span class="hover:text-primary cursor-pointer transition-colors">工作台</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-slate-900 dark:text-white font-medium">批量生成</span>
+</div>
+<h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">批量上传服装</h1>
+</div>
+<div class="flex items-center bg-white dark:bg-slate-800 rounded-lg p-1.5 shadow-sm border border-slate-200 dark:border-slate-700">
+<div class="flex items-center px-3 py-1.5 bg-primary/10 rounded text-primary font-semibold text-sm">
+<span class="flex items-center justify-center size-5 rounded-full bg-primary text-white text-xs mr-2">1</span>
+                            批量上传
+                        </div>
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-600 text-lg mx-1">chevron_right</span>
+<div class="flex items-center px-3 py-1.5 text-slate-400 dark:text-slate-500 font-medium text-sm">
+<span class="flex items-center justify-center size-5 rounded-full border border-slate-300 dark:border-slate-600 text-xs mr-2">2</span>
+                            统一配置
+                        </div>
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-600 text-lg mx-1">chevron_right</span>
+<div class="flex items-center px-3 py-1.5 text-slate-400 dark:text-slate-500 font-medium text-sm">
+<span class="flex items-center justify-center size-5 rounded-full border border-slate-300 dark:border-slate-600 text-xs mr-2">3</span>
+                            批量生成
+                        </div>
+</div>
+</div>
+<div class="group relative flex flex-col items-center justify-center w-full h-64 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-primary hover:bg-primary/5 transition-all cursor-pointer">
+<div class="flex flex-col items-center justify-center pt-5 pb-6 text-center px-4">
+<div class="size-14 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center mb-4 group-hover:bg-white dark:group-hover:bg-slate-600 group-hover:scale-110 transition-all shadow-sm">
+<span class="material-symbols-outlined text-3xl text-primary">cloud_upload</span>
+</div>
+<p class="mb-2 text-lg font-semibold text-slate-700 dark:text-slate-200">
+                            点击或拖拽上传
+                        </p>
+<p class="text-sm text-slate-500 dark:text-slate-400 max-w-sm">
+                            支持批量上传，最多10张，支持 JPG/PNG 格式
+                        </p>
+</div>
+<input accept="image/png, image/jpeg" class="hidden" id="dropzone-file" multiple="" type="file"/>
+</div>
+<div class="flex flex-col gap-4 pb-20"> 
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-semibold flex items-center gap-2">
+                            已上传图片
+                            <span class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs px-2 py-0.5 rounded-full">4/10</span>
+</h3>
+<button class="text-sm text-red-500 hover:text-red-600 font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-base">delete_sweep</span>
+                            清空所有
+                        </button>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+<div class="group relative bg-white dark:bg-slate-800 rounded-lg p-2 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+<div class="relative w-full aspect-[3/4] rounded overflow-hidden mb-3 bg-slate-100">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Blue summer dress" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCLXfiWxobcwn7uVnf0oqVmG_fMkNkwewJqFHuNI6Qsw9hyII4gRWha-wyDUPkjUHBnUsiT7I5Azkme5mPFfPSkf1n7gmmJ34mvSvttaYQJ6O3anB_wMeAOAXVONthsWKK0kqxMHj66JdNYz2Z8u6EO4MOl6U5vev8_07GPH2bUW8zuStHafzFM1aSTKvEJBpB3ofK_9z8qNv9e8NTmW9DowiGSZwDtype4czk_SKGKzqlTljDwOQwoh-3whsb4PjFv_WLtgYPZOhPb');"></div>
+<button class="absolute top-2 right-2 bg-white/90 dark:bg-black/60 hover:bg-red-50 dark:hover:bg-red-900/50 text-slate-600 dark:text-slate-200 hover:text-red-600 p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+<div class="space-y-1">
+<label class="text-xs text-slate-500 dark:text-slate-400 font-medium">服装名称</label>
+<div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary px-2 py-1.5 transition-colors">
+<input class="w-full bg-transparent border-none p-0 text-xs sm:text-sm focus:ring-0 placeholder-slate-400 dark:text-white" type="text" value="蓝色夏日连衣裙"/>
+<span class="material-symbols-outlined text-primary text-sm" title="AI Auto-generated">auto_awesome</span>
+</div>
+</div>
+</div>
+<div class="group relative bg-white dark:bg-slate-800 rounded-lg p-2 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+<div class="relative w-full aspect-[3/4] rounded overflow-hidden mb-3 bg-slate-100">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="White T-shirt" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCcDy76xANalpI2WGob1BMyMr1gAlJd6Njxcyx_TNjPKm6oooXvLiGPlCPcKdQLJSHfVIyyjsQZDDFGfmj4rKPY-MKBIY_XswE1SnOzCOxI2IaK0EZEG6tr5fpDiOTURetyTY2sPIfFuKK5FNi8oKKEbCG01HRKK64KNPn6KGAuIuUfCaHktyOzDess9L56Isfv9aZU0KE2Mc8tQfwG3vnyOysh-cW5UNyU1RdAVJAyzNJtJFauBPfEfpw4Q1pp7DAeglWRCyq_yUy0');"></div>
+<button class="absolute top-2 right-2 bg-white/90 dark:bg-black/60 hover:bg-red-50 dark:hover:bg-red-900/50 text-slate-600 dark:text-slate-200 hover:text-red-600 p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+<div class="space-y-1">
+<label class="text-xs text-slate-500 dark:text-slate-400 font-medium">服装名称</label>
+<div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary px-2 py-1.5 transition-colors">
+<input class="w-full bg-transparent border-none p-0 text-xs sm:text-sm focus:ring-0 placeholder-slate-400 dark:text-white" type="text" value="基础白T恤"/>
+<span class="material-symbols-outlined text-primary text-sm" title="AI Auto-generated">auto_awesome</span>
+</div>
+</div>
+</div>
+<div class="group relative bg-white dark:bg-slate-800 rounded-lg p-2 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+<div class="relative w-full aspect-[3/4] rounded overflow-hidden mb-3 bg-slate-100">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Denim Jacket" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBRZJ8IyMzzbLdAUrrrwBsJTNqiGXggRRBcsLeh07xoMF_TfFZWEWudNMc5QbeMmNz3NAcVd4cDWR7Mp9HzmtLUWk0pFlL0m68Iu6c1IEe1TN3-VhKKLvjpbsVQp3AasfJbve47etgEIs5uuPJ51JrScQ2CYUSdJaWcFKvkiPb4ki_hLq7T0p9eebJBOkp1dNYp7TV4-aXLreqvSb7iNGU369yeP6JnhuvWuoxIpKa59MLryX4Hf9vYCPpKcbQPnZx79TLVXL9j8A28');"></div>
+<button class="absolute top-2 right-2 bg-white/90 dark:bg-black/60 hover:bg-red-50 dark:hover:bg-red-900/50 text-slate-600 dark:text-slate-200 hover:text-red-600 p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+<div class="space-y-1">
+<label class="text-xs text-slate-500 dark:text-slate-400 font-medium">服装名称</label>
+<div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary px-2 py-1.5 transition-colors">
+<input class="w-full bg-transparent border-none p-0 text-xs sm:text-sm focus:ring-0 placeholder-slate-400 dark:text-white" type="text" value="复古牛仔夹克"/>
+<span class="material-symbols-outlined text-primary text-sm" title="AI Auto-generated">auto_awesome</span>
+</div>
+</div>
+</div>
+<div class="group relative bg-white dark:bg-slate-800 rounded-lg p-2 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+<div class="relative w-full aspect-[3/4] rounded overflow-hidden mb-3 bg-slate-100 flex items-center justify-center">
+<div class="absolute inset-0 bg-cover bg-center opacity-50 grayscale" data-alt="Loading item" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC_tiUEbYCaH8vGmA3coY36VSmqUC3X6EFykxI1hFbHuW0t5JH9vKEV51MShYGOe-2ZMbwUUTxMIlvFp1XfyAb4KmHD9-3LZ-YyhbsjEXST71OdkmZbRaw41JrExK4szhB_fINV9F4Gw9VogEzsC6wX0Zr5JB8HVKDx3pc_WVMQm_x3ebjfAbVkxcGeDhK2ilFfNzITu7A3YJ4EGiscKc8FMIH5kIghH6_Bz4JvrIEgRTX_G0opSB9bDxLQC2M62vIkRvOqM3R7HgsE');"></div>
+<div class="relative z-10 bg-white/80 dark:bg-slate-900/80 backdrop-blur rounded-full p-2 shadow-lg">
+<span class="material-symbols-outlined animate-spin text-primary">progress_activity</span>
+</div>
+</div>
+<div class="space-y-1">
+<label class="text-xs text-slate-500 dark:text-slate-400 font-medium">服装名称</label>
+<div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700 px-2 py-1.5 opacity-60 pointer-events-none">
+<input class="w-full bg-transparent border-none p-0 text-xs sm:text-sm focus:ring-0 placeholder-slate-400 dark:text-white" disabled="" type="text" value="识别中..."/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-background-dark/95 backdrop-blur px-6 py-4 flex items-center justify-between shrink-0 z-40">
+<div class="text-sm text-slate-500 dark:text-slate-400 hidden sm:flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base">lightbulb</span>
+<span>提示：请确保图片光线充足，背景干净，以获得最佳识别效果。</span>
+</div>
+<div class="flex gap-3 w-full sm:w-auto ml-auto">
+<button class="flex-1 sm:flex-none px-6 py-2.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-medium text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                    取消
+                </button>
+<button class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg bg-primary text-white font-medium text-sm hover:bg-sky-600 transition-all shadow-md shadow-primary/20">
+                    下一步：统一配置
+                    <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

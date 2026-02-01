@@ -36,10 +36,13 @@ app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(generate.router, prefix="/generate", tags=["generate"])
 app.include_router(image.router, prefix="/image", tags=["image"])
 
-# Other routers to be implemented later
-# from app.routers import users, materials
-# app.include_router(users.router, prefix="/users", tags=["users"])
-# app.include_router(materials.router, prefix="/materials", tags=["materials"])
+from app.routers import users, materials
+app.include_router(users.router, prefix="/users", tags=["users"])
+app.include_router(materials.router, prefix="/materials", tags=["materials"])
+
+# Static files
+from fastapi.staticfiles import StaticFiles
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 if __name__ == "__main__":
     import uvicorn
