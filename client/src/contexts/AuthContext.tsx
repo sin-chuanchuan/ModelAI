@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 // Configure axios defaults
-axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL || '/api';
 
 interface User {
     id: string;
