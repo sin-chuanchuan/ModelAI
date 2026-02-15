@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { message } from 'antd';
-import axios from 'axios';
+import apiClient from '../api/client';
 import { useAuth } from '../contexts/AuthContext';
 import AuthLayout from '../layouts/AuthLayout';
 
@@ -16,18 +16,21 @@ const Login: React.FC = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const formData = new FormData();
-            formData.append('username', phone);
-            formData.append('password', password);
+            const params = new URLSearchParams();
+            params.append('username', phone);
+            params.append('password', password);
 
-            const response = await axios.post('/auth/login', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
+            const response = await apiClient.post('/auth/login', params.toString(), {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Accept': 'application/json'
+                }
             });
 
             const { access_token } = response.data;
             await login(access_token);
             message.success('登录成功');
-            navigate('/dashboard'); // Go to dashboard instead of workspace for better landing
+            navigate('/projects'); // Go to projects list
         } catch (error: any) {
             console.error(error);
             const msg = error.response?.data?.detail || '登录失败，请检查账号密码';

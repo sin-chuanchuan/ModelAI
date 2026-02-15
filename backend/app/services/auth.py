@@ -26,36 +26,22 @@ def create_user(user_data: UserCreate) -> UserInDB:
     user_model = UserModel(
         phone=user_data.phone,
         hashed_password=hashed_password,
-        company_name=user_data.company_name, # Extra fields allowed by Pydantic model extra=ignore or if added to model
+        company_name=user_data.company_name,
         contact_name=user_data.contact_name,
         created_at=datetime.utcnow(),
         updated_at=datetime.utcnow()
     )
     
-    # Convert to dict for insertion, explicitly handling fields not in UserModel if needed
-    # But for now let's stick to UserModel definition.
-    # Wait, UserModel definition I just created didn't have company_name/contact_name.
-    # Let's check UserModel again. It didn't. 
-    # But for MVP, keeping it simple as per PRD "Enterprise info optional".
-    # I should probably update UserModel to include them or put them in a profile dict.
-    # For simplicity, let's just insert what we have.
-    
-    user_doc = user_model.model_dump(by_alias=True, exclude={"id"})
-    # Add optional fields that might not be in the strict model if we want to store them
-    if user_data.company_name:
-        user_doc["company_name"] = user_data.company_name
-    if user_data.contact_name:
-        user_doc["contact_name"] = user_data.contact_name
-        
     # Insert user into database
+    user_doc = user_model.model_dump(by_alias=True, exclude={"id"})
     result = users_collection.insert_one(user_doc)
     
     # Return schema
     return UserInDB(
         id=str(result.inserted_id),
         phone=user_model.phone,
-        company_name=user_doc.get("company_name"),
-        contact_name=user_doc.get("contact_name"),
+        company_name=user_model.company_name,
+        contact_name=user_model.contact_name,
         is_active=user_model.is_active,
         is_superuser=user_model.is_superuser,
         balance=user_model.balance,
@@ -71,6 +57,7 @@ def authenticate_user(phone: str, password: str) -> Optional[UserInDB]:
     if not verify_password(password, user["hashed_password"]):
         return None
     
+    # Use model_validate for cleaner mapping if needed, but manual is fine for InDB schema
     return UserInDB(
         id=str(user["_id"]),
         phone=user["phone"],

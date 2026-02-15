@@ -31,14 +31,23 @@ async def root():
     }
 
 # Include routers
-from app.routers import auth, generate, image
+from app.routers import auth, generate, image, users, materials, references, projects
+
+# Add debug middleware to see actual hit paths
+@app.middleware("http")
+async def log_requests(request, call_next):
+    print(f"[DEBUG] Request path: {request.url.path}")
+    response = await call_next(request)
+    print(f"[DEBUG] Response status: {response.status_code}")
+    return response
+
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(generate.router, prefix="/generate", tags=["generate"])
 app.include_router(image.router, prefix="/image", tags=["image"])
-
-from app.routers import users, materials
 app.include_router(users.router, prefix="/users", tags=["users"])
 app.include_router(materials.router, prefix="/materials", tags=["materials"])
+app.include_router(references.router, prefix="/references", tags=["references"])
+app.include_router(projects.router, prefix="/projects", tags=["projects"])
 
 # Static files
 from fastapi.staticfiles import StaticFiles

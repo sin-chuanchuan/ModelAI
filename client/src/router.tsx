@@ -10,6 +10,11 @@ const Register = React.lazy(() => import('./pages/Register'));
 const Workspace = React.lazy(() => import('./pages/Workspace'));
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 
+// Project Pages
+const ProjectList = React.lazy(() => import('./pages/dashboard/ProjectList'));
+const ProjectWorkflow = React.lazy(() => import('./pages/projects/ProjectWorkflow'));
+const ProjectResult = React.lazy(() => import('./pages/projects/ProjectResult'));
+
 // Generation Wizard Components
 const SingleGeneratorLayout = React.lazy(() => import('./pages/generate/SingleGeneratorLayout'));
 const Step1Upload = React.lazy(() => import('./pages/generate/Step1Upload'));
@@ -49,55 +54,62 @@ import { BatchProvider } from './contexts/BatchContext';
 const AppRouter: React.FC = () => {
     return (
         <BrowserRouter>
-            <GenerationProvider>
-                <BatchProvider>
-                    <React.Suspense fallback={<div className="p-12 text-center"><Spin /></div>}>
-                        <Routes>
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/register" element={<Register />} />
+            <React.Suspense fallback={<div className="p-12 text-center"><Spin /></div>}>
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
 
-                            {/* Main Layout Routes */}
-                            <Route path="/" element={
-                                <ProtectedRoute>
-                                    <MainLayout />
-                                </ProtectedRoute>
+                    {/* Main Layout Routes */}
+                    <Route path="/" element={
+                        <ProtectedRoute>
+                            <MainLayout />
+                        </ProtectedRoute>
+                    }>
+                        <Route index element={<Navigate to="/projects" replace />} />
+                        <Route path="projects" element={<ProjectList />} />
+                        <Route path="projects/:projectId/workflow" element={<ProjectWorkflow />} />
+                        <Route path="projects/:projectId/result" element={<ProjectResult />} />
+
+                        <Route path="dashboard" element={<Dashboard />} />
+                        <Route path="workspace" element={<Workspace />} />
+
+                        {/* Generation Wizard Routes */}
+                        <Route path="generate" element={<div className="h-full"><Outlet /></div>}>
+                            <Route path="single" element={
+                                <GenerationProvider>
+                                    <SingleGeneratorLayout />
+                                </GenerationProvider>
                             }>
-                                <Route index element={<Navigate to="/dashboard" replace />} />
-                                <Route path="dashboard" element={<Dashboard />} />
-                                <Route path="workspace" element={<Workspace />} />
-
-                                {/* Generation Wizard Routes */}
-                                <Route path="generate" element={<div className="h-full"><Outlet /></div>}>
-                                    <Route path="single" element={<SingleGeneratorLayout />}>
-                                        <Route index element={<Navigate to="step1" replace />} />
-                                        <Route path="step1" element={<Step1Upload />} />
-                                        <Route path="step2" element={<Step2Settings />} />
-                                        <Route path="step3" element={<Step3Result />} />
-                                        <Route path="step3" element={<Step3Result />} />
-                                    </Route>
-
-                                    {/* Batch Generation Routes */}
-                                    <Route path="batch" element={<BatchLayout />}>
-                                        <Route index element={<Navigate to="upload" replace />} />
-                                        <Route path="upload" element={<BatchUpload />} />
-                                        <Route path="settings" element={<BatchSettings />} />
-                                        <Route path="progress" element={<BatchProgress />} />
-                                    </Route>
-                                </Route>
-
-                                {/* Placeholders for other sidebar links */}
-                                <Route path="materials" element={<Materials />} />
-                                <Route path="team" element={<Team />} />
-                                <Route path="billing" element={<Billing />} />
-                                <Route path="billing/history" element={<BillingHistory />} />
+                                <Route index element={<Navigate to="step1" replace />} />
+                                <Route path="step1" element={<Step1Upload />} />
+                                <Route path="step2" element={<Step2Settings />} />
+                                <Route path="step3" element={<Step3Result />} />
                             </Route>
 
-                            {/* Catch all */}
-                            <Route path="*" element={<Navigate to="/" replace />} />
-                        </Routes>
-                    </React.Suspense>
-                </BatchProvider>
-            </GenerationProvider>
+                            {/* Batch Generation Routes */}
+                            <Route path="batch" element={
+                                <BatchProvider>
+                                    <BatchLayout />
+                                </BatchProvider>
+                            }>
+                                <Route index element={<Navigate to="upload" replace />} />
+                                <Route path="upload" element={<BatchUpload />} />
+                                <Route path="settings" element={<BatchSettings />} />
+                                <Route path="progress" element={<BatchProgress />} />
+                            </Route>
+                        </Route>
+
+                        {/* Placeholders for other sidebar links */}
+                        <Route path="materials" element={<Materials />} />
+                        <Route path="team" element={<Team />} />
+                        <Route path="billing" element={<Billing />} />
+                        <Route path="billing/history" element={<BillingHistory />} />
+                    </Route>
+
+                    {/* Catch all */}
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+            </React.Suspense>
         </BrowserRouter>
     );
 };

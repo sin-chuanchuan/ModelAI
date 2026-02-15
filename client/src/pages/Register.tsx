@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { message } from 'antd';
-import axios from 'axios';
+import apiClient from '../api/client';
 import AuthLayout from '../layouts/AuthLayout';
 
 const Register: React.FC = () => {
@@ -15,7 +15,7 @@ const Register: React.FC = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            await axios.post('/auth/register', {
+            await apiClient.post('/auth/register', {
                 phone,
                 password,
                 contact_name: contactName

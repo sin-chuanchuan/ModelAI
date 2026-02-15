@@ -39,6 +39,8 @@ class Config(BaseSettings):
     AI_PROVIDER: str = "doubao"  # doubao / openai / baidu
     
     DOUBAO_API_KEY: Optional[str] = None
+    DOUBAO_BASE_URL: str = "https://ark.cn-beijing.volces.com/api/v3"
+    DOUBAO_MODEL: Optional[str] = None # Endpoint ID for Doubao
     BAIDU_API_KEY: Optional[str] = None
     OPENAI_API_KEY: Optional[str] = None
 

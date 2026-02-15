@@ -33,6 +33,8 @@ class UserModel(BaseModel):
     id: Optional[PyObjectId] = Field(default_factory=PyObjectId, alias="_id")
     phone: str = Field(..., description="User phone number")
     hashed_password: str = Field(..., description="Hashed password")
+    company_name: Optional[str] = Field(None, description="Enterprise company name")
+    contact_name: Optional[str] = Field(None, description="Contact person name")
     balance: int = Field(default=0, description="Remaining generation credits")
     is_active: bool = Field(default=True)
     is_superuser: bool = Field(default=False)

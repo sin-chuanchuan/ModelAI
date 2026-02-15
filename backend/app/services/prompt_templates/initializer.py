@@ -73,6 +73,15 @@ def initialize_prompt_templates():
                 {"name": "style", "type": "string", "description": "Photography style", "required": True}
             ],
             "example": "A professional e-commerce photo of a female model wearing a statement necklace with a black dress against a dark background. The focus is on the necklace, with dramatic lighting. High detail, realistic, commercial quality, elegant"
+        },
+        {
+            "name": "高保真虚拟换装",
+            "description": "基于参考图和服装图，高保真还原模特并更换服装",
+            "template": "将图片1中的模特穿上图片2中的服装。必须严格保持图片1中模特的面部特征、发型、五官和妆容，且背景环境保持完全一致。专业高端电商商拍图，高质量保真，细腻的织物纹理，柔和自然的商业摄影光影，8K超清，极致细节。",
+            "category": "fashion",
+            "tags": ["vto", "try_on", "high_fidelity"],
+            "variables": [],
+            "example": "将图片1中的模特穿上图片2中的服装。保持模特的面部特征不变，背景保持完全一致。专业商拍质感。"
         }
     ]
     

@@ -1,9 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
-
-
-// Configure axios defaults
-axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL || '/api';
+import apiClient from '../api/client';
 
 interface User {
     id: string;
@@ -31,7 +27,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // If token exists, fetch user profile
         const fetchUser = async () => {
             if (!token) {
                 setLoading(false);
@@ -39,12 +34,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             }
 
             try {
-                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-                const response = await axios.get('/users/me');
+                setLoading(true);
+                const response = await apiClient.get('/users/me');
                 setUser(response.data);
-            } catch (error) {
-                console.error('Failed to fetch user:', error);
-                logout(); // Token invalid
+            } catch (error: any) {
+                logout();
             } finally {
                 setLoading(false);
             }
@@ -55,15 +49,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const login = async (newToken: string) => {
         localStorage.setItem('token', newToken);
+        setLoading(true);
         setToken(newToken);
-        // User will be fetched by effect
     };
 
     const logout = () => {
         localStorage.removeItem('token');
         setToken(null);
         setUser(null);
-        delete axios.defaults.headers.common['Authorization'];
     };
 
     return (

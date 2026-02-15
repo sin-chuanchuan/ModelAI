@@ -14,7 +14,7 @@ class AIServiceFactory:
     # Service registry mapping service names to service classes
     _service_registry: Dict[str, Type[AIService]] = {
         "openai": OpenAIService,
-        "doubao": DoubaoAIService,
+        "doubao": OpenAIService,
         # Add other AI services here as they are implemented
         # "replicate": ReplicateService,
         # "custom": CustomAIService,

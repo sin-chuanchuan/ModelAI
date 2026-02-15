@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import apiClient from '../../api/client';
 import { useGeneration } from '../../contexts/GenerationContext';
 import { message } from 'antd';
 
@@ -69,7 +69,7 @@ const Step1Upload: React.FC = () => {
         formData.append('type', 'garment');
 
         try {
-            const response = await axios.post('/materials/upload', formData);
+            const response = await apiClient.post('/materials/upload', formData);
             setUploadedImage(response.data.url); // Update with real URL
             message.success('上传成功');
         } catch (error) {

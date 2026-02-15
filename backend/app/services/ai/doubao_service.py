@@ -54,7 +54,10 @@ class DoubaoAIService(AIService):
         }
         
         if image_urls:
-            request_data["image"] = list(image_urls.values())
+            if isinstance(image_urls, dict) and "list" in image_urls:
+                request_data["image"] = image_urls["list"]
+            else:
+                request_data["image"] = list(image_urls.values())
         
         try:
             async with httpx.AsyncClient(timeout=60.0) as client:

@@ -12,7 +12,14 @@ from celery_config import celery
 
 logger = logging.getLogger(__name__)
 
-@celery.task(bind=True, name="app.tasks.generate.generate_image_task")
+@celery.task(
+    bind=True, 
+    name="app.tasks.generate.generate_image_task",
+    autoretry_for=(Exception,),
+    retry_backoff=True,
+    retry_backoff_max=600,
+    max_retries=3
+)
 def generate_image_task(self, task_id: str):
     """
     Celery task for generating an image asynchronously.
@@ -40,9 +47,12 @@ def generate_image_task(self, task_id: str):
         ai_service = AIServiceFactory.get_service(service_name)
         
         # 4. 解析素材 ID 为 URL
-        model_id = task.get("model_id")
-        scene_id = task.get("scene_id")
         garment_url = task.get("garment_url")
+        reference_image_url = task.get("reference_image_url")
+        
+        # 如果有直接提供的参考图 URL，优先使用
+        model_url = reference_image_url
+        scene_url = None
 
         def resolve_material_url(material_id_or_url):
             if not material_id_or_url:
@@ -52,23 +62,48 @@ def generate_image_task(self, task_id: str):
                 return m_doc.get("url") if m_doc else material_id_or_url
             return material_id_or_url
 
-        model_url = resolve_material_url(model_id)
-        scene_url = resolve_material_url(scene_id)
+        # 如果没有 reference_image_url，回退到 legacy 的 model_id/scene_id 逻辑
+        if not model_url:
+            model_id = task.get("model_id")
+            scene_id = task.get("scene_id")
+            model_url = resolve_material_url(model_id)
+            scene_url = resolve_material_url(scene_id)
 
         # 5. 处理本地开发 URL 兼容性 (豆包 API 限制)
         def get_public_url(url):
             if not url: return None
-            if url.startswith("file://") or "localhost" in url:
+            # 豆包 API 只能访问带有公网域名且 HTTPS 的 URL
+            # 如果是本地路径、相对路径或 localhost，统一转发到示例图
+            is_local = "localhost" in url or "127.0.0.1" in url or "file://" in url
+            is_relative = url.startswith("/") and not url.startswith("//")
+            is_not_https = not url.startswith("https://")
+            
+            if is_local or is_relative or is_not_https:
                 # 生产环境下应上传至 OSS/S3，开发环境下使用示例图
+                logger.warning(f"Map internal URL to public placeholder: {url}")
                 return "https://ark-project.tos-cn-beijing.volces.com/doc_image/seedream4_imagesToimage_1.png"
             return url
 
-        image_urls = {}
-        if garment_url: image_urls["garment"] = get_public_url(garment_url)
-        if model_url: image_urls["model"] = get_public_url(model_url)
-        if scene_url: image_urls["scene"] = get_public_url(scene_url)
+        image_urls_list = []
+        if model_url: image_urls_list.append(get_public_url(model_url)) # Index 0 -> 图片1
+        if garment_url: image_urls_list.append(get_public_url(garment_url)) # Index 1 -> 图片2
+        if scene_url: image_urls_list.append(get_public_url(scene_url)) # Index 2 -> 图片3
         
-        prompt = task.get("prompt") or "A professional fashion photo of a model wearing high-quality clothing"
+        # 5. 设计高保真换装 Prompt
+        # 对于豆包 Seedream 4.5，指令式的 Prompt 在多图场景下效果最好
+        if garment_url and model_url:
+            # 基础换装指令
+            base_prompt = "将图片1中的模特穿上图片2中的服装。"
+            # 稳定性约束
+            stability_constraints = "必须严格保持图片1中模特的面部特征、发型、五官和妆容，且背景环境保持完全一致。"
+            # 质量描述
+            quality_tags = "专业高端电商商拍图，高质量保真，细腻的织物纹理，柔和自然的商业摄影光影，8K超清，极致细节。"
+            
+            # 组合 Prompt
+            default_vto_prompt = f"{base_prompt} {stability_constraints} {quality_tags}"
+            prompt = task.get("prompt") or default_vto_prompt
+        else:
+            prompt = task.get("prompt") or "A professional fashion photo of a model wearing high-quality clothing"
         
         # 6. 执行异步 AI 生成逻辑
         # 因为 Celery worker 是同步运行的，我们需要通过事件循环运行异步代码
@@ -82,7 +117,7 @@ def generate_image_task(self, task_id: str):
         
         result = loop.run_until_complete(ai_service.generate_image(
             prompt=prompt,
-            image_urls=image_urls,
+            image_urls={"list": image_urls_list}, # Pass as list wrapped in dict for current API compatibility
             size=task.get("params", {}).get("size", "2K")
         ))
         
@@ -100,14 +135,16 @@ def generate_image_task(self, task_id: str):
         logger.info(f"Task {task_id} completed successfully.")
         
     except Exception as e:
-        logger.exception(f"Error executing generation task {task_id}: {str(e)}")
+        error_msg = str(e)
+        logger.exception(f"Error executing generation task {task_id}: {error_msg}")
         # 8. 标记任务失败
         generation_tasks_collection.update_one(
             {"_id": ObjectId(task_id)},
             {"$set": {
                 "status": TaskStatus.FAILED, 
-                "error_message": str(e),
+                "error_message": error_msg,
                 "updated_at": datetime.utcnow()
             }}
         )
-        raise e
+        # Re-raise as a simple Exception to avoid pickling issues with complex objects
+        raise Exception(error_msg)

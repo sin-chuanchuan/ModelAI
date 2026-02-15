@@ -23,8 +23,10 @@ class PromptTemplateService:
         """
         # Convert to dictionary and add metadata
         template_doc = template_data.model_dump()
+        template_id = str(ObjectId())
         template_doc.update({
-            "_id": str(ObjectId()),
+            "_id": template_id,
+            "id": template_id,
             "created_at": datetime.utcnow(),
             "updated_at": datetime.utcnow(),
             "is_active": True
@@ -49,6 +51,8 @@ class PromptTemplateService:
         """
         template_doc = prompt_templates_collection.find_one({"_id": template_id})
         if template_doc:
+            if "id" not in template_doc:
+                template_doc["id"] = str(template_doc["_id"])
             return PromptTemplate(**template_doc)
         return None
     
@@ -74,6 +78,8 @@ class PromptTemplateService:
         
         templates = []
         for template_doc in prompt_templates_collection.find(query):
+            if "id" not in template_doc:
+                template_doc["id"] = str(template_doc["_id"])
             templates.append(PromptTemplate(**template_doc))
         
         return templates

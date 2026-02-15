@@ -2,15 +2,18 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import ErrorBoundary from '../common/ErrorBoundary';
 
 const MainLayout: React.FC = () => {
     return (
-        <div className="flex flex-col h-screen overflow-hidden bg-background-light dark:bg-background-dark text-[#111618] dark:text-white">
-            <Header />
-            <div className="flex flex-1 overflow-hidden">
-                <Sidebar />
-                <main className="flex-1 flex flex-col h-full overflow-y-auto relative scroll-smooth bg-background-light dark:bg-background-dark">
-                    <Outlet />
+        <div className="flex h-screen overflow-hidden bg-background-light dark:bg-background-dark font-display">
+            <Sidebar />
+            <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+                <Header />
+                <main className="flex-1 flex flex-col min-w-0 overflow-y-auto relative scroll-smooth bg-[#f5f7f8] dark:bg-[#101c22]">
+                    <ErrorBoundary>
+                        <Outlet />
+                    </ErrorBoundary>
                 </main>
             </div>
         </div>

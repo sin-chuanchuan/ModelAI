@@ -4,7 +4,7 @@ import { UploadOutlined, EnterOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import axios from 'axios';
+import apiClient from '../api/client';
 
 // Interfaces
 interface Material {
@@ -48,7 +48,7 @@ const Workspace: React.FC = () => {
 
                 const type = typeMap[activeTab] || 'model';
 
-                const response = await axios.get(`/materials/presets?category=${type}`);
+                const response = await apiClient.get(`/materials/presets?category=${type}`);
                 setMaterials(response.data);
             } catch (error) {
                 console.error('Failed to fetch materials:', error);
@@ -70,7 +70,7 @@ const Workspace: React.FC = () => {
         formData.append('type', 'garment');
 
         try {
-            const response = await axios.post('/materials/upload', formData);
+            const response = await apiClient.post('/materials/upload', formData);
             setUploadedGarment(response.data.url);
             message.success('上传成功');
             onSuccess?.(response.data);
@@ -90,7 +90,7 @@ const Workspace: React.FC = () => {
         setGenerating(true);
         setResultImage(null);
         try {
-            const response = await axios.post('/generate/', {
+            const response = await apiClient.post('/generate/', {
                 garment_url: uploadedGarment,
                 model_id: selectedModel.id, // Using DB ID
                 scene_id: selectedScene.id, // Using DB ID
@@ -113,7 +113,7 @@ const Workspace: React.FC = () => {
 
         const poll = async () => {
             try {
-                const response = await axios.get(`/generate/${taskId}`);
+                const response = await apiClient.get(`/generate/${taskId}`);
                 const { status, result_url, error_message } = response.data;
                 setTaskStatus(status);
 

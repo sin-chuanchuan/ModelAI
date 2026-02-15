@@ -1,48 +1,61 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { SIDEBAR_MENU_ITEMS, BRAND_CONFIG } from '../../config/navigation';
 
 const Sidebar: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
-
-    const menuItems = [
-        { icon: 'work', label: '工作台', path: '/dashboard', filled: true },
-        { icon: 'folder_open', label: '素材库', path: '/materials' },
-        { icon: 'group', label: '团队管理', path: '/team' },
-        { icon: 'credit_card', label: '费用中心', path: '/billing' },
-    ];
+    const [isCollapsed, setIsCollapsed] = useState(false);
 
     const isActive = (path: string) => location.pathname === path;
 
     return (
-        <aside className="w-64 bg-white dark:bg-surface-dark border-r border-[#dbe2e6] dark:border-gray-800 flex flex-col flex-shrink-0 h-full transition-colors duration-200 z-20">
-            <div className="flex flex-col gap-1 px-4 py-6 flex-1 overflow-y-auto">
-                {menuItems.map((item) => {
+        <aside
+            className={`${isCollapsed ? 'w-20' : 'w-64'
+                } bg-white dark:bg-[#1a2c35] border-r border-[#e2e8f0] dark:border-[#2d3748] flex flex-col shrink-0 z-50 h-screen sticky top-0 transition-all duration-300 ease-in-out`}
+        >
+            <div className={`h-16 flex items-center ${isCollapsed ? 'justify-center' : 'justify-start px-6'} border-b border-[#e2e8f0] dark:border-[#2d3748]`}>
+                <div className="flex items-center text-[#0da6f2] font-bold text-xl tracking-tight">
+                    <span className="material-symbols-outlined text-2xl" style={{ color: BRAND_CONFIG.primaryColor }}>auto_awesome</span>
+                    {!isCollapsed && (
+                        <div className="flex flex-col ml-2 leading-tight">
+                            <span>{BRAND_CONFIG.name}</span>
+                            <span className="text-[10px] font-medium text-slate-400">{BRAND_CONFIG.description}</span>
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            <nav className="flex-1 py-6 flex flex-col gap-2 px-3 overflow-y-auto overflow-x-hidden">
+                {SIDEBAR_MENU_ITEMS.map((item) => {
                     const active = isActive(item.path);
                     return (
                         <button
                             key={item.path}
                             onClick={() => navigate(item.path)}
+                            title={isCollapsed ? item.label : ''}
                             className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${active
-                                    ? 'bg-primary/10 text-primary'
-                                    : 'text-[#607c8a] dark:text-gray-400 hover:bg-[#f0f3f5] dark:hover:bg-white/5 hover:text-[#111618] dark:hover:text-white hover:translate-x-1'
+                                ? 'bg-[#0da6f2]/10 text-[#0da6f2] font-medium'
+                                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-[#0da6f2]'
                                 }`}
                         >
-                            <span
-                                className="material-symbols-outlined transition-transform group-hover:scale-110"
-                                style={item.filled && active ? { fontVariationSettings: "'FILL' 1" } : {}}
-                            >
+                            <span className="material-symbols-outlined text-[24px]">
                                 {item.icon}
                             </span>
-                            <p className="text-sm font-medium leading-normal">{item.label}</p>
+                            {!isCollapsed && <span className="text-sm truncate">{item.label}</span>}
                         </button>
                     );
                 })}
-            </div>
-            <div className="p-4 border-t border-[#dbe2e6] dark:border-gray-800">
-                <button className="flex w-full cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary/90 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:shadow-lg hover:shadow-primary/20 active:scale-95">
-                    <span className="material-symbols-outlined text-[20px]">add</span>
-                    <span className="truncate">上传图片</span>
+            </nav>
+
+            <div className="p-4 border-t border-[#e2e8f0] dark:border-[#2d3748] flex justify-center md:justify-end">
+                <button
+                    onClick={() => setIsCollapsed(!isCollapsed)}
+                    className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                >
+                    <span className={`material-symbols-outlined transform transition-transform duration-300 ${isCollapsed ? 'rotate-180' : ''}`}>
+                        keyboard_double_arrow_left
+                    </span>
                 </button>
             </div>
         </aside>

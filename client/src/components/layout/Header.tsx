@@ -1,64 +1,55 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useLocation, Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
-    const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const location = useLocation();
+
+    // Mock breadcrumbs for now, in a real app these would be dynamic
+    const breadcrumbs = [
+        { label: '夏季新品系列 2024', path: '#' },
+        { label: '任务配置', path: location.pathname }
+    ];
 
     return (
-        <header className="h-16 bg-white dark:bg-surface-dark border-b border-[#dbe2e6] dark:border-gray-800 flex items-center justify-between px-6 shrink-0 z-30 sticky top-0 backdrop-blur-sm bg-white/90 dark:bg-surface-dark/90 supports-[backdrop-filter]:bg-white/60">
-            <div className="flex gap-3 items-center">
-                <div
-                    className="bg-center bg-no-repeat bg-cover rounded-full size-9 bg-primary/20 flex items-center justify-center text-primary"
-                    style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCm_mLEdO7r6jqtESkxo-ZFwdmwHTVfB61Wu-GThcQ7OS4ORcZ13Hb613LWz1LwpQriMUWOErIXJ09xWFJoyxPLYxzbSDKGoV9le61C2DSTgl2PKm-U9njfKNft2y9tg5LDzjyMEii4wu_XyXtEcZf6Z7AINulmTEqd3mNI-FJOYn0RSN2loMbdX_-hjreH6IVS44QXIomKxjP2zGJ0MKjYAYYbPbBRqQERGp5hx6sw9VbfRL__66giq25LhZeeGllxbR0-7O2dOz9c")' }}
-                >
-                </div>
-                <div className="flex items-center gap-2">
-                    <h1 className="text-lg font-bold leading-normal dark:text-white">AI模特平台</h1>
-                    <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-primary/10 text-primary border border-primary/20">专业版</span>
-                </div>
+        <header className="bg-white dark:bg-[#1a2c35] border-b border-[#e2e8f0] dark:border-[#2d3748] h-16 px-6 flex items-center justify-between shrink-0 sticky top-0 z-30">
+            <div className="flex items-center gap-4">
+                <nav className="flex items-center text-sm font-medium">
+                    {breadcrumbs.map((crumb, index) => (
+                        <React.Fragment key={crumb.path}>
+                            {index > 0 && (
+                                <span className="material-symbols-outlined text-slate-400 text-sm mx-2">chevron_right</span>
+                            )}
+                            <Link
+                                to={crumb.path}
+                                className={
+                                    index === breadcrumbs.length - 1
+                                        ? "text-slate-900 dark:text-white font-semibold"
+                                        : "text-slate-500 hover:text-[#0da6f2] dark:text-slate-400 dark:hover:text-[#0da6f2] transition-colors"
+                                }
+                            >
+                                {crumb.label}
+                            </Link>
+                        </React.Fragment>
+                    ))}
+                </nav>
             </div>
 
             <div className="flex items-center gap-4">
-                <button className="relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 text-[#607c8a] dark:text-gray-400 transition-colors hover:rotate-12 duration-300" title="通知">
-                    <span className="material-symbols-outlined text-[24px]">notifications</span>
-                    <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white dark:border-surface-dark animate-pulse"></span>
-                </button>
+                <span className="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full">
+                    自动保存于 10:42
+                </span>
 
-                <div className="relative group">
-                    <button
-                        className="flex items-center gap-3 pl-1 pr-2 py-1 rounded-full hover:bg-gray-50 dark:hover:bg-white/5 transition-all outline-none border border-transparent hover:border-gray-200 dark:hover:border-gray-700"
-                        onClick={() => setIsProfileOpen(!isProfileOpen)}
-                        onBlur={() => setTimeout(() => setIsProfileOpen(false), 200)}
-                    >
-                        <div
-                            className="size-9 rounded-full bg-gray-200 bg-cover bg-center border border-gray-200 dark:border-gray-700"
-                            style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuC05ICNMfNo0u31BQ_SISg5TqyBlNXHeCHie1VgFmCTYpfy8aVWruUm_cNeKpiHUJxYZ74MbHC6i_KCN8v3O_o02VZ1PW-5Jenb7gcvxC38mZ44cAisRBO-4gc1SOjuDzhrb3iHBWnVYjp-jeFve-66KY0_aJrzKLXNubrkht-MC_r1hONv7TTd_DFhr48G28uuRc2Dv3OfmGNXJn-5vEa69jvoLvk0z84GS43IZ5ALxFopwsrOzK3nffgTaRaMuuYm-nmMddg9wnG8')" }}
-                        ></div>
-                        <div className="flex flex-col items-start hidden sm:flex">
-                            <span className="text-sm font-semibold text-[#111618] dark:text-white leading-none">138****8888</span>
-                        </div>
-                        <span className={`material-symbols-outlined text-gray-400 text-lg transition-transform duration-300 ${isProfileOpen ? 'rotate-180' : ''}`}>expand_more</span>
-                    </button>
+                <div className="w-9 h-9 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 cursor-pointer transition-colors relative">
+                    <span className="material-symbols-outlined text-xl">notifications</span>
+                    <span className="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border border-white dark:border-slate-800"></span>
+                </div>
 
-                    {/* Simplified dropdown handling with group-hover for CSS-only simple interaction, or state for complex */}
-                    <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-surface-dark rounded-lg shadow-xl border border-gray-100 dark:border-gray-700 py-1 hidden group-hover:block animate-fade-in z-50 origin-top-right">
-                        <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
-                            <p className="text-sm text-[#111618] dark:text-white font-medium">我的账户</p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">user@example.com</p>
-                        </div>
-                        <a className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors" href="#">
-                            <span className="material-symbols-outlined text-[18px]">person</span>
-                            完善信息
-                        </a>
-                        <a className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors" href="#">
-                            <span className="material-symbols-outlined text-[18px]">settings</span>
-                            账号设置
-                        </a>
-                        <div className="border-t border-gray-100 dark:border-gray-700 my-1"></div>
-                        <a className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" href="#">
-                            <span className="material-symbols-outlined text-[18px]">logout</span>
-                            退出登录
-                        </a>
-                    </div>
+                <div className="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden cursor-pointer ring-2 ring-transparent hover:ring-[#0da6f2]/50 transition-all">
+                    <img
+                        alt="用户头像"
+                        className="w-full h-full object-cover"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEPOFKeiAYb3gXI0rExi0oSrG1_YkCLQHe82_lZ8zq9Hx8SagMqzHZYf6I4pUUaRvGpDe6BoMCgLnLWpfGuig-9EXoCD_Jo_B5k9O-x8uUM25b_zAzHi1YdQzN9omky1qOtDsd7ijsARx762_5glG3GyRloExJGHSclqdf7JEMiLuGtwL9-7QVAM-akjJojfAzg-0jxMj27eP_CV_eo-enyf8MU3Qo-AiXmuG2dejrolNtgW_fRmJvFdwCJtnCR8svvjS6-7OU5zms"
+                    />
                 </div>
             </div>
         </header>

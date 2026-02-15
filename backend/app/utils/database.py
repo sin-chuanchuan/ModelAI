@@ -18,6 +18,8 @@ db = client.get_database()
 users_collection = db.users
 materials_collection = db.materials
 generation_tasks_collection = db.generation_tasks
+references_collection = db.references
+projects_collection = db.projects
 
 # Close client on exit
 import atexit
