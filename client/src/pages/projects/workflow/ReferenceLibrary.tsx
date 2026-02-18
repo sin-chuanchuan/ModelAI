@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tabs, Badge, Tooltip, Spin } from 'antd';
 import { ScanOutlined, InfoCircleOutlined, CheckCircleFilled } from '@ant-design/icons';
+import { resolveImageUrl } from '../../../api/client';
 
 interface ReferenceLibraryProps {
     hasGarments: boolean;
@@ -78,7 +79,7 @@ const ReferenceLibrary: React.FC<ReferenceLibraryProps> = ({
                                                     onClick={() => toggleRef(ref.id)}
                                                     className={`group relative aspect-[3/4] rounded-xl overflow-hidden cursor-pointer border-2 transition-all ${selectedRefs.includes(ref.id) ? 'border-[#0da6f2] ring-4 ring-[#0da6f2]/10' : 'border-slate-100 dark:border-[#2d3748] hover:border-[#0da6f2]/50'}`}
                                                 >
-                                                    <img src={ref.url} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="参考图" />
+                                                    <img src={resolveImageUrl(ref.url)} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="参考图" />
                                                     {selectedRefs.includes(ref.id) && (
                                                         <div className="absolute inset-0 bg-[#0da6f2]/10 flex items-center justify-center">
                                                             <div className="bg-[#0da6f2] text-white rounded-full p-1 shadow-lg">
@@ -146,7 +147,7 @@ const ReferenceLibrary: React.FC<ReferenceLibraryProps> = ({
                                                     onClick={() => toggleRef(refId)}
                                                     className={`group relative aspect-[3/4] rounded-xl overflow-hidden cursor-pointer border-2 transition-all ${selectedRefs.includes(refId) ? 'border-[#0da6f2] ring-4 ring-[#0da6f2]/10' : 'border-slate-100 dark:border-[#2d3748] hover:border-[#0da6f2]/50'}`}
                                                 >
-                                                    <img src={ref.url} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="历史参考图" />
+                                                    <img src={resolveImageUrl(ref.url)} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="历史参考图" />
                                                     {selectedRefs.includes(refId) && (
                                                         <div className="absolute inset-0 bg-[#0da6f2]/10 flex items-center justify-center">
                                                             <div className="bg-[#0da6f2] text-white rounded-full p-1 shadow-lg">

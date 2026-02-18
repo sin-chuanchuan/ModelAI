@@ -49,4 +49,16 @@ apiClient.interceptors.response.use(
     }
 );
 
+export const resolveImageUrl = (url: string | null | undefined): string => {
+    if (!url) return 'https://api.dicebear.com/7.x/miniavs/svg?seed=placeholder';
+    if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) {
+        return url;
+    }
+    // Handle relative uploads path
+    if (url.startsWith('/uploads')) {
+        return `${baseURL}${url}`;
+    }
+    return url;
+};
+
 export default apiClient;

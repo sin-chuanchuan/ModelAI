@@ -1,5 +1,7 @@
 import React from 'react';
-import { AppstoreOutlined, FolderOpenOutlined, EditOutlined, CheckCircleFilled, LoadingOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, FolderOpenOutlined, EditOutlined, CheckCircleFilled, LoadingOutlined, ExclamationCircleFilled } from '@ant-design/icons';
+import { Tooltip } from 'antd';
+import { resolveImageUrl } from '../../../api/client';
 
 interface ResultSidebarProps {
     tasks: any[];
@@ -33,17 +35,18 @@ const ResultSidebar: React.FC<ResultSidebarProps> = ({ tasks, loading, selectedT
                     const status = task.status;
                     const isCompleted = status === 'COMPLETED';
                     const isProcessing = status === 'PROCESSING' || status === 'PENDING';
+                    const isFailed = status === 'FAILED';
 
                     return (
                         <div
                             key={task.id}
                             onClick={() => onSelect?.(task.id)}
-                            className={`group relative p-2.5 rounded-xl border-2 cursor-pointer transition-all ${selectedTaskId === task.id ? 'bg-blue-50/50 border-blue-500 shadow-sm' : isProcessing ? 'bg-blue-50/10 border-blue-100' : isCompleted ? 'bg-white dark:bg-slate-800/30 border-slate-100 dark:border-slate-800 hover:border-slate-300' : 'bg-red-50 border-red-100'}`}
+                            className={`group relative p-2.5 rounded-xl border-2 cursor-pointer transition-all ${selectedTaskId === task.id ? 'bg-blue-50/50 border-blue-500 shadow-sm' : isProcessing ? 'bg-blue-50/10 border-blue-100' : isCompleted ? 'bg-white dark:bg-slate-800/30 border-slate-100 dark:border-slate-800 hover:border-slate-300' : 'bg-red-50 border-red-200'}`}
                         >
                             <div className="flex gap-3">
                                 <div className="w-14 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-slate-100 dark:bg-slate-800">
                                     <img
-                                        src={task.result_url || task.garment_url || 'https://api.dicebear.com/7.x/miniavs/svg?seed=placeholder'}
+                                        src={resolveImageUrl(task.result_url || task.garment_url)}
                                         className="w-full h-full object-cover"
                                         alt=""
                                     />
@@ -51,9 +54,16 @@ const ResultSidebar: React.FC<ResultSidebarProps> = ({ tasks, loading, selectedT
                                 <div className="flex flex-col justify-between py-0.5 overflow-hidden">
                                     <div>
                                         <h4 className="text-[11px] font-bold text-slate-800 dark:text-slate-100 truncate">任务 #{task.id.slice(-4).toUpperCase()}</h4>
-                                        <p className="text-[9px] text-slate-400 font-medium">
-                                            {isCompleted ? '生成成功' : isProcessing ? '计算中...' : '生成失败'}
-                                        </p>
+                                        <div className="flex items-center gap-1">
+                                            <p className={`text-[9px] font-medium ${isFailed ? 'text-red-500' : 'text-slate-400'}`}>
+                                                {isCompleted ? '生成成功' : isProcessing ? '计算中...' : '生成失败'}
+                                            </p>
+                                            {isFailed && task.error_message && (
+                                                <Tooltip title={task.error_message}>
+                                                    <ExclamationCircleFilled className="text-[10px] text-red-500 cursor-help" />
+                                                </Tooltip>
+                                            )}
+                                        </div>
                                     </div>
                                     {isProcessing && (
                                         <span className="text-[10px] text-blue-500 font-bold flex items-center gap-1">

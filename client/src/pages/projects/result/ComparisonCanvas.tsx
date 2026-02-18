@@ -7,6 +7,8 @@ import {
     SwapOutlined
 } from '@ant-design/icons';
 
+import { resolveImageUrl } from '../../../api/client';
+
 interface ComparisonCanvasProps {
     imageUrl: string;
     beforeUrl: string;
@@ -68,14 +70,14 @@ const ComparisonCanvas: React.FC<ComparisonCanvasProps> = ({ imageUrl, beforeUrl
                     <div className="relative w-full h-full cursor-col-resize select-none">
                         {/* After Image */}
                         <img
-                            src={imageUrl}
+                            src={resolveImageUrl(imageUrl)}
                             className="absolute inset-0 w-full h-full object-cover"
                             style={{ clipPath: `inset(0 ${100 - sliderValue}% 0 0)` }}
                             alt="effect"
                         />
                         {/* Before Image */}
                         <img
-                            src={beforeUrl}
+                            src={resolveImageUrl(beforeUrl)}
                             className="absolute inset-0 w-full h-full object-cover"
                             style={{ clipPath: `inset(0 0 0 ${sliderValue}%)` }}
                             alt="original"

@@ -1,6 +1,8 @@
 import { Upload } from 'antd';
 import { CloudUploadOutlined, DeleteOutlined, CheckCircleFilled } from '@ant-design/icons';
 
+import { resolveImageUrl } from '../../../api/client';
+
 const { Dragger } = Upload;
 
 interface GarmentSidebarProps {
@@ -56,7 +58,7 @@ const GarmentSidebar: React.FC<GarmentSidebarProps> = ({
                     garmentUrls.map((url, i) => (
                         <div key={i} className="group relative flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700 hover:border-[#0da6f2]/30 transition-all">
                             <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-slate-200">
-                                <img src={url} className="w-full h-full object-cover" alt="" />
+                                <img src={resolveImageUrl(url)} className="w-full h-full object-cover" alt="" />
                             </div>
                             <div className="flex-1 min-w-0">
                                 <p className="text-xs font-bold text-slate-700 dark:text-slate-200 truncate">款式 #{i + 1}</p>

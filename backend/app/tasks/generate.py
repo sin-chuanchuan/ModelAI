@@ -25,13 +25,27 @@ def generate_image_task(self, task_id: str):
     Celery task for generating an image asynchronously.
     Supports asynchronous AI service calls within the synchronous Celery worker.
     """
+    import os
+    logger.info(f"Start processing generation task: {task_id}")
+    
+    # 0. 环境变量校验 (线上诊断关键)
+    api_key = os.getenv("DOUBAO_API_KEY")
+    if not api_key:
+        error_msg = "CRITICAL: DOUBAO_API_KEY is missing in environment variables"
+        logger.error(error_msg)
+        generation_tasks_collection.update_one(
+            {"_id": ObjectId(task_id)},
+            {"$set": {"status": TaskStatus.FAILED, "error_message": error_msg, "updated_at": datetime.utcnow()}}
+        )
+        return
+
     # 1. 获取任务数据
     task = generation_tasks_collection.find_one({"_id": ObjectId(task_id)})
     if not task:
         logger.error(f"Task {task_id} not found in database.")
         return
 
-    # 2. 更新状态为正在处理
+    # 2. 更新状态为正在处理 (解决前端无限 Loading)
     generation_tasks_collection.update_one(
         {"_id": ObjectId(task_id)},
         {"$set": {
